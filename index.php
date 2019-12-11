@@ -1,3 +1,9 @@
+<?php
+require_once("includes/HTMLFunctions.php");
+require_once("includes/DefaultSettings.php");
+include_once("LocalSettings.php");
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -30,13 +36,21 @@
 	<div id=datazones>
 		<div id=datazonesrow>
 			<div id="zone2-container" class="container scroller">
-				<div id=zone2 >
-					<p>Temporal</p>
+				<div id=zone2>
+					<div id=sitemap-container>
+
+						<h3>Mapa del sitio</h3>
+						<?php
+						echo SiteMap2UnorderedList($siteMap);
+						?>
+					</div>
 				</div>
 			</div>
 			<div id="zone3-container" class="container scroller">
-				<div id=zone3 >
+				<div id=zone3>
+					<div>
 					<p>Temporal</p>
+					<div>
 				</div>
 			</div>
 		</div>

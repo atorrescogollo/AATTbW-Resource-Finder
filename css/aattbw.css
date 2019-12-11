@@ -90,6 +90,7 @@ body{
 	display: table-row;
 }
 
+
 #zone2-container {
 	display: table-cell;
 	width: 240px;
@@ -103,6 +104,27 @@ body{
 	border: 1px solid rgb(82, 124, 128);
 	border-radius: 15px;
 }
+
+#zone2 div, #zone3 div {
+	padding: 20px;
+}
+
+#sitemap-container {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#sitemap-container > ul{
+	margin-top: 10px;
+}
+
+.ullevel0 > li{
+	margin: 16px 0px;
+}
+.ullevel1{
+	margin: 5px 5px 5px 25px;
+}
+
 
 #zone3-container {
 	display: table-cell;
