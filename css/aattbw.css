@@ -140,6 +140,53 @@ body{
 	border-radius: 15px;
 }
 
+#data-container > h3 {
+	text-align: center;
+}
+
+#children-boxes-container {
+	margin: 20px;
+}
+
+#children-boxes-container > h4 {
+	font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#children-boxes-container >	ul {
+	display: flex;
+	flex-wrap: wrap;
+	list-style-type: none;
+	width: auto;
+}
+
+#children-boxes-container > ul > a {
+	text-decoration: none;
+	color: initial;
+}
+
+#children-boxes-container >	ul li img {
+	float: left;
+	margin: 0 15px 0 0;
+	height: 70px;
+	width: 70px;
+}
+
+#children-boxes-container > ul li p {
+	font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+
+#children-boxes-container > ul li {
+	padding: 10px;
+	overflow: auto;
+	width: 400px;
+}
+
+#children-boxes-container > ul li:hover {
+	background: #eee;
+	cursor: pointer;
+}
+
+
 #zone4 {
 	position: fixed;
 	bottom: 0;

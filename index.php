@@ -19,10 +19,7 @@ $current_siteMap=$siteMap[$idSection];
 $idOperation=0;
 if (array_key_exists('IdOperation',$_GET)){
 	$idOperation=$_GET['IdOperation'];
-	if (!is_numeric($idOperation) ){
-		$error=true;
-	}
-	if( $error or !array_key_exists('Children', $current_siteMap) or !array_key_exists($idOperation, $current_siteMap["Children"] ) ){
+	if (!is_numeric($idOperation) or !array_key_exists('Children', $current_siteMap) or !array_key_exists($idOperation, $current_siteMap["Children"] ) ){
 		// Redirect to /index.php
 		header("Location: index.php");
 		die();
@@ -33,6 +30,7 @@ if (array_key_exists('IdOperation',$_GET)){
 	}
 }
 
+$hasChildren= ( array_key_exists('Children',$current_siteMap) and !empty($current_siteMap['Children']) );
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -79,13 +77,27 @@ if (array_key_exists('IdOperation',$_GET)){
 			</div>
 			<div id="zone3-container" class="container">
 				<div id=zone3>
-					<div>
+					<div id=data-container>
+					<h3> <?php echo $current_siteMap['Name']; ?> </h3>
+
 					<?php
-					echo "<pre>";
-					print_r($current_siteMap);
-					echo "</pre>";
+					if($idSection==0){ // For Welcome Page
+						// TODO: Improve welcome page
+						$hasChildren=true;
+						echo "<div id=children-boxes-container>";
+						echo Children2BoxList($siteMap,'index.php?',"IdSection", [0]);
+						echo "</div>";
+					}
+					else if($hasChildren){ // For sections
+						echo "<div id=children-boxes-container>";
+						echo Children2BoxList($current_siteMap['Children'],'index.php?IdSection='.$idSection,"IdOperation");
+						echo "</div>";
+					}
+					else { // For operations
+
+					}
 					?>
-					<div>
+					</div>
 				</div>
 			</div>
 		</div>
