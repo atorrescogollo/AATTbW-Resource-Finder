@@ -66,7 +66,7 @@ if (array_key_exists('IdOperation',$_GET)){
 	</div>
 	<div id=datazones>
 		<div id=datazonesrow>
-			<div id="zone2-container" class="container scroller">
+			<div id="zone2-container" class="container">
 				<div id=zone2>
 					<div id=sitemap-container>
 
@@ -77,7 +77,7 @@ if (array_key_exists('IdOperation',$_GET)){
 					</div>
 				</div>
 			</div>
-			<div id="zone3-container" class="container scroller">
+			<div id="zone3-container" class="container">
 				<div id=zone3>
 					<div>
 					<?php
