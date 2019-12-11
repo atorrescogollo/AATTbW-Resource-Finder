@@ -3,6 +3,37 @@ require_once("includes/HTMLFunctions.php");
 require_once("includes/DefaultSettings.php");
 include_once("LocalSettings.php");
 
+
+$idSection=0;
+if (array_key_exists('IdSection',$_GET)){
+	$idSection=$_GET['IdSection'];
+	if (!is_numeric($idSection) or !array_key_exists($idSection, $siteMap)){
+		// Redirect to /index.php
+		header("Location: index.php");
+		die();
+	}
+}
+
+$current_siteMap=$siteMap[$idSection];
+
+$idOperation=0;
+if (array_key_exists('IdOperation',$_GET)){
+	$idOperation=$_GET['IdOperation'];
+	if (!is_numeric($idOperation) ){
+		$error=true;
+	}
+	if( $error or !array_key_exists('Children', $current_siteMap) or !array_key_exists($idOperation, $current_siteMap["Children"] ) ){
+		// Redirect to /index.php
+		header("Location: index.php");
+		die();
+	}
+	else{
+		$hasOperation=true;
+		$current_siteMap=$current_siteMap["Children"][$idOperation];
+	}
+}
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -49,7 +80,11 @@ include_once("LocalSettings.php");
 			<div id="zone3-container" class="container scroller">
 				<div id=zone3>
 					<div>
-					<p>Temporal</p>
+					<?php
+					echo "<pre>";
+					print_r($current_siteMap);
+					echo "</pre>";
+					?>
 					<div>
 				</div>
 			</div>
