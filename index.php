@@ -42,6 +42,18 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 	<link rel="shortcut icon" type="image/png" href="images/logo.png" />
 
 	<link href="css/aattbw.css" rel="stylesheet" type="text/css" />
+
+
+	<link href="css/modules.css" rel="stylesheet" type="text/css" />
+	<link href="css/aattbw_ArcGIS.css" rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" href="https://js.arcgis.com/3.26/esri/css/esri.css">
+	<!-- ArcGIS API for JavaScript library references -->
+	<script src="https://js.arcgis.com/3.26/"></script>
+	<!-- Terraformer reference -->
+	<script src="js/terraformer.min.js"></script>
+	<script src="js/terraformer-arcgis-parser.min.js"></script>
+
 </head>
 
 <body>
@@ -95,21 +107,24 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
                             echo "<div id=children-boxes-container>";
                             echo Children2BoxList($current_siteMap['Children'], 'index.php?IdSection=' . $idSection, "IdOperation");
                             echo "</div>";
-						} else { // For operations
-							$moduleloaded=false;
+                        } else { // For operations
+                            $moduleloaded=false;
                             if (array_key_exists('ModulePath', $current_siteMap)) {
                                 $modulePath = $current_siteMap['ModulePath'];
                                 if (file_exists($modulePath)) {
-									include_once($modulePath);
-									$moduleloaded=true;
+                                    echo '<div id=module-container>';
+                                    include_once($modulePath);
+                                    echo '</div>';
+
+                                    $moduleloaded=true;
                                 }
-							}
-							
-							if(!$moduleloaded){
-								echo '<div id=error-container>';
-								echo ErrorHTML("Error en la operación", "La operación solicitada no se encuentra disponible.");
-								echo '</div>';
-							}
+                            }
+                            
+                            if (!$moduleloaded) {
+                                echo '<div id=error-container>';
+                                echo ErrorHTML("Error en la operación", "La operación solicitada no se encuentra disponible.");
+                                echo '</div>';
+                            }
                         }
                         ?>
 					</div>

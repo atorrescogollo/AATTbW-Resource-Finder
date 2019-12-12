@@ -1,13 +1,13 @@
 <?php
 
     /* DB Settings */
-	$dbServer='localhost';
+    $dbServer='localhost';
     $dbPort=3306;
     $dbDatabase='db';
     $dbUser='user';
     $dbPass='pass';
 
-    /* SiteMap 
+    /* SiteMap
       -----------
         Inicio (0)
         Soluciones (1)
@@ -31,6 +31,8 @@
         0 => 'IdSection',
         1 => 'IdOperation'
     ];
+
+    $modulesPath="modules/";
 
     $siteMap[0]=[
         "Name" => "Inicio",
@@ -75,6 +77,7 @@
         "Children" => [
           0 => [
             "Name" => 'Recursos por Comunidad Autónoma',
+            "ModulePath" => $modulesPath.'recursos_ccaa.php'
           ],
           1 => [
             "Name" => 'Recursos por Provincia',

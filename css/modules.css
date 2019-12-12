@@ -1,0 +1,87 @@
+:root {
+	--color-fondo: rgb(245, 245, 245);
+	--color-letra: rgb(0, 59, 99);
+	--color-letra-intenso: rgb(29, 49, 105);
+	--color-fondo-tema: rgb(82, 124, 128);
+	--color-neutro-fondo: rgb(218, 218, 218);
+	--color-letra-tema: rgb(255, 255, 255);
+	--color-fondo-registros: rgb(107, 123, 133);
+	--color-letra-registros: rgb(255, 255, 255);
+	--color-fondo-error: rgb(107, 123, 133);
+	--color-letra-error: rgb(255, 158, 158);
+	--color-fondo-parrilla: rgb(238, 238, 238);
+	--color-fondo-parrilla-header: rgb(222, 234, 246);
+	--letra-familia: "Helvetica Neue", Arial, sans-serif;
+	--letra-dockbar: 24pt;
+	--letra-grande: 14pt;
+	--letra: 11pt;
+	--letra-pequena: 9pt;
+}
+
+#module-container #inforegistros {
+	font-weight: bold;
+	background-color: var(--color-fondo-registros);
+	color: var(--color-letra-registros);
+	padding: 10px 100px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	border-radius: 5px;
+}
+
+#module-container #parrilladiv {
+	overflow: scroll;
+	max-height: 200px;
+}
+
+#module-container table.parrilla {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: var(--color-fondo-parrilla);
+	text-align: left;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#module-container table.parrilla td, #module-container table.parrilla th, #module-container .th {
+	padding: 5px 5px;
+}
+
+#module-container table.parrilla tr th, #module-container .th {
+	font-weight: bold;
+	background-color: var(--color-fondo-parrilla-header);
+	min-width: 120px;
+	color: var(--color-letra-intenso);
+	border-bottom: 5px solid var(--color-letra-intenso);
+}
+
+#module-container table>tr {
+	font-size: var(--letra-grande);
+}
+
+#module-container table td {
+	font-size: var(--letra);
+}
+
+#module-container .th {
+	text-align: center;
+}
+
+#module-container .fixedwidth {}
+
+#module-container .tablaresaltada {
+	font-weight: bold;
+	background-color: var(--color-fondo-parrilla-header);
+	color: var(--color-letra-intenso);
+}
+
+#module-container #errormsg {
+	background-color: var(--color-fondo-error);
+	color: var(--color-letra-error);
+	font-size: var(--letra-dockbar);
+	font-weight: bold;
+	padding: 15px 100px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border-radius: 8px;
+}
