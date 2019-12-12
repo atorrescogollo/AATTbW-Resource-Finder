@@ -114,6 +114,12 @@ body{
 	margin-right: 10px;
 }
 
+#sitemap-container .selected {
+	color: rgb(82, 124, 128);
+	font-weight: bolder;
+	font-size: 18px;
+}
+
 #sitemap-container > ul{
 	margin-top: 10px;
 }
@@ -142,6 +148,7 @@ body{
 
 #data-container > h3 {
 	text-align: center;
+	margin-bottom: 20px;
 }
 
 #children-boxes-container {
@@ -186,6 +193,31 @@ body{
 	cursor: pointer;
 }
 
+#error-container {
+	background-color: #f5e9cc;
+	border: 2px solid #f6b73c;
+	border-radius: 10px;
+	margin: 40px 5px;
+	margin-left: 10%;
+	max-width: 600px;
+}
+
+#error-container > img{
+	height: 60px;
+	width: 60px;
+	margin-right: 20px;
+	margin-left: 10px;
+	float: left;
+}
+
+#error-container #error-description-container {
+	background-color: #f6b73c;
+	border: 2px solid #f5e9cc;
+	border-radius: 10px;
+	padding: 5px 15px;
+	margin-left: 90px;
+	margin-top: 10px;
+}
 
 #zone4 {
 	position: fixed;

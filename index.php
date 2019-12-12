@@ -4,33 +4,33 @@ require_once("includes/DefaultSettings.php");
 include_once("LocalSettings.php");
 
 
-$idSection=0;
-if (array_key_exists('IdSection',$_GET)){
-	$idSection=$_GET['IdSection'];
-	if (!is_numeric($idSection) or !array_key_exists($idSection, $siteMap)){
-		// Redirect to /index.php
-		header("Location: index.php");
-		die();
-	}
+$idSection = 0;
+if (array_key_exists('IdSection', $_GET)) {
+    $idSection = $_GET['IdSection'];
+    if (!is_numeric($idSection) or !array_key_exists($idSection, $siteMap)) {
+        // Redirect to /index.php
+        header("Location: index.php");
+        die();
+    }
 }
 
-$current_siteMap=$siteMap[$idSection];
+$current_siteMap = $siteMap[$idSection];
 
-$idOperation=0;
-if (array_key_exists('IdOperation',$_GET)){
-	$idOperation=$_GET['IdOperation'];
-	if (!is_numeric($idOperation) or !array_key_exists('Children', $current_siteMap) or !array_key_exists($idOperation, $current_siteMap["Children"] ) ){
-		// Redirect to /index.php
-		header("Location: index.php");
-		die();
-	}
-	else{
-		$hasOperation=true;
-		$current_siteMap=$current_siteMap["Children"][$idOperation];
-	}
+$hasOperation = false;
+$idOperation = 0;
+if (array_key_exists('IdOperation', $_GET)) {
+    $idOperation = $_GET['IdOperation'];
+    if (!is_numeric($idOperation) or !array_key_exists('Children', $current_siteMap) or !array_key_exists($idOperation, $current_siteMap["Children"])) {
+        // Redirect to /index.php
+        header("Location: index.php");
+        die();
+    } else {
+        $hasOperation = true;
+        $current_siteMap = $current_siteMap["Children"][$idOperation];
+    }
 }
 
-$hasChildren= ( array_key_exists('Children',$current_siteMap) and !empty($current_siteMap['Children']) );
+$hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($current_siteMap['Children']));
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -67,36 +67,51 @@ $hasChildren= ( array_key_exists('Children',$current_siteMap) and !empty($curren
 			<div id="zone2-container" class="container">
 				<div id=zone2>
 					<div id=sitemap-container>
-
 						<h3>Mapa del sitio</h3>
 						<?php
-						echo SiteMap2UnorderedList($siteMap);
-						?>
+                        if ($hasOperation) {
+                            $selectorPath=[$idSection, $idOperation];
+                        } else {
+                            $selectorPath=[$idSection];
+                        }
+                        echo SiteMap2UnorderedList($siteMap, $selectorPath);
+                        ?>
 					</div>
 				</div>
 			</div>
 			<div id="zone3-container" class="container">
 				<div id=zone3>
 					<div id=data-container>
-					<h3> <?php echo $current_siteMap['Name']; ?> </h3>
+						<h3> <?php echo $current_siteMap['Name']; ?> </h3>
 
-					<?php
-					if($idSection==0){ // For Welcome Page
-						// TODO: Improve welcome page
-						$hasChildren=true;
-						echo "<div id=children-boxes-container>";
-						echo Children2BoxList($siteMap,'index.php?',"IdSection", [0]);
-						echo "</div>";
-					}
-					else if($hasChildren){ // For sections
-						echo "<div id=children-boxes-container>";
-						echo Children2BoxList($current_siteMap['Children'],'index.php?IdSection='.$idSection,"IdOperation");
-						echo "</div>";
-					}
-					else { // For operations
-
-					}
-					?>
+						<?php
+                        if ($idSection == 0) { // For Welcome Page
+                            // TODO: Improve welcome page
+                            $hasChildren = true;
+                            echo "<div id=children-boxes-container>";
+                            echo Children2BoxList($siteMap, 'index.php?', "IdSection", [0]);
+                            echo "</div>";
+                        } elseif ($hasChildren) { // For sections
+                            echo "<div id=children-boxes-container>";
+                            echo Children2BoxList($current_siteMap['Children'], 'index.php?IdSection=' . $idSection, "IdOperation");
+                            echo "</div>";
+						} else { // For operations
+							$moduleloaded=false;
+                            if (array_key_exists('ModulePath', $current_siteMap)) {
+                                $modulePath = $current_siteMap['ModulePath'];
+                                if (file_exists($modulePath)) {
+									include_once($modulePath);
+									$moduleloaded=true;
+                                }
+							}
+							
+							if(!$moduleloaded){
+								echo '<div id=error-container>';
+								echo ErrorHTML("Error en la operación", "La operación solicitada no se encuentra disponible.");
+								echo '</div>';
+							}
+                        }
+                        ?>
 					</div>
 				</div>
 			</div>
