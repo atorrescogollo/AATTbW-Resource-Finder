@@ -42,6 +42,7 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 	<link rel="shortcut icon" type="image/png" href="images/logo.png" />
 
 	<link href="css/aattbw.css" rel="stylesheet" type="text/css" />
+	<link href="css/modules.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>

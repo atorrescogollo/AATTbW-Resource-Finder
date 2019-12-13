@@ -161,38 +161,6 @@ body{
 	height: 100%;
 }
 
-.step-container-title {
-	padding: 0 30px;
-	font: bold 18px/1.5 Helvetica, Verdana, sans-serif;
-}
-
-.step-container{
-	border: 2px solid rgb(82, 124, 128);
-	border-radius: 20px;
-	padding: 20px;
-	margin: 0 20px 20px;
-}
-
-#step1 > form {
-	min-width: 600px;
-}
-
-#step1 > form > * {
-	font: 16px/1.5 Helvetica, Verdana, sans-serif;
-	margin: 0 30px;
-}
-
-#step1 > form > input {
-	min-width: 40%;
-}
-
-#step1 > form > button {
-	min-width: 100px;
-}
-
-#map {
-	min-height: 350px;
-}
 
 #children-boxes-container {
 	margin: 20px;
