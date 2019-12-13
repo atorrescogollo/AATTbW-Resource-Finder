@@ -100,9 +100,11 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
                             if (array_key_exists('ModulePath', $current_siteMap)) {
                                 $modulePath = $current_siteMap['ModulePath'];
                                 if (file_exists($modulePath)) {
+									echo '<div id=module-container>';
 									include_once($modulePath);
+									echo '</div>';
 									$moduleloaded=true;
-                                }
+								}
 							}
 							
 							if(!$moduleloaded){
