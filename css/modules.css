@@ -29,5 +29,6 @@
 }
 
 #map {
-	min-height: 350px;
+	max-width: 1050px;
+	max-height: 450px;
 }

@@ -1,5 +1,7 @@
 <?php
 require_once("includes/HTMLFunctions.php");
+require_once("includes/MySQLFunctions.php");
+require_once("includes/TableFunctions.php");
 require_once("includes/DefaultSettings.php");
 include_once("LocalSettings.php");
 
@@ -43,6 +45,14 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 
 	<link href="css/aattbw.css" rel="stylesheet" type="text/css" />
 	<link href="css/modules.css" rel="stylesheet" type="text/css" />
+
+	<link href="css/aattbw_ArcGIS.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://js.arcgis.com/3.26/esri/css/esri.css">
+	<!-- ArcGIS API for JavaScript library references -->
+	<script src="https://js.arcgis.com/3.26/"></script>
+	<!-- Terraformer reference -->
+	<script src="js/terraformer.min.js"></script>
+	<script src="js/terraformer-arcgis-parser.min.js"></script>
 </head>
 
 <body>

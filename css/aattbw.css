@@ -93,6 +93,7 @@ body{
 
 #zone2-container {
 	display: table-cell;
+	min-width: 240px;
 	width: 240px;
 	height: 100%;
 	padding: 15px 10px;
@@ -154,7 +155,7 @@ body{
 
 #data-container > h3 {
 	text-align: center;
-	margin: 20px;
+	margin-top: 20px;
 }
 
 #module-container {
