@@ -1,28 +1,25 @@
-
 /** ****************** 
  *	estilos mapa
  * referencias:
  *  https://developers.arcgis.com/javascript/3/jshelp/intro_customizepopup.html
  *  
  ****************** */
+
 #mapArcGIS {
-	border-radius:.6em;	
+	border-radius: .6em;
 	margin-top: 5px !important;
 	margin-bottom: 5px;
 }
 
-.esriPopup > .esriPopupWrapper {
-
+.esriPopup>.esriPopupWrapper {
 	font-family: var(--font-family);
 	font-size: 9pt;
 }
- 
-.esriPopupWrapper .sizer .titlePane {
 
+.esriPopupWrapper .sizer .titlePane {
 	font-size: 11pt;
 	font-weight: bold;
 	background-color: var(--color-fondo-tema);
-	
 	color: var(--color-letra-tema);
 	padding: 5px 20px;
 	border-color: var(--color-fondo-tema);
@@ -31,17 +28,15 @@
 .esriPopupWrapper .sizer .actionsPane {
 	background-color: var(--color-fondo-registros);
 	color: var(--color-letra);
-
 	padding: 5px 20px;
 }
-
 
 .esriPopupWrapper .sizer .actionsPane span {
 	color: var(--color-letra-tema);
 	text-decoration: underline;
 }
 
-#graphicsLayer1_layer > circle {
+#graphicsLayer1_layer>circle {
 	stroke: var(--color-letra);
 	fill: var(--color-fondo);
 }

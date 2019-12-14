@@ -1,35 +1,30 @@
 :root {
 	--color-fondo: rgb(245, 245, 245);
-	--color-letra: 	rgb(0, 59, 99);
+	--color-letra: rgb(0, 59, 99);
 	--color-letra-intenso: rgb(29, 49, 105);
-
 	--color-fondo-tema: rgb(82, 124, 128);
-	--color-neutro-fondo: rgb(218,218,218);
+	--color-neutro-fondo: rgb(218, 218, 218);
 	--color-letra-tema: rgb(255, 255, 255);
-
 	--color-fondo-registros: rgb(107, 123, 133);
 	--color-letra-registros: rgb(255, 255, 255);
-
 	--color-fondo-error: rgb(107, 123, 133);
 	--color-letra-error: rgb(255, 158, 158);
-	
 	--color-fondo-parrilla: rgb(238, 238, 238);
-
 	--color-fondo-parrilla-header: rgb(222, 234, 246);
-	--letra-familia: "Helvetica Neue",Arial,sans-serif;
+	--letra-familia: "Helvetica Neue", Arial, sans-serif;
 	--letra-dockbar: 24pt;
 	--letra-grande: 14pt;
 	--letra: 11pt;
 	--letra-pequena: 9pt;
 }
 
-*{
-	margin:0;
-	padding:0;
-	font-family: "Helvetica Neue",Arial,sans-serif;
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-body{
+body {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -40,11 +35,11 @@ body{
 	background-color: rgb(250, 250, 250);
 }
 
-.dockbar{
+.dockbar {
 	background-color: rgb(82, 124, 128);
 	color: white;
-    overflow: hidden;
-    white-space: nowrap;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 #zone1 {
@@ -55,20 +50,21 @@ body{
 	height: 80px;
 }
 
-.container{
+.container {
 	padding: 10px;
 	margin: 5px;
 }
+
 #title {
 	float: left;
 }
 
-#logo-container{
+#logo-container {
 	float: left;
 	display: block;
 }
 
-#logo-container > img {
+#logo-container>img {
 	height: 50px;
 	width: 50px;
 	float: left;
@@ -80,7 +76,7 @@ body{
 	margin-right: 20px;
 }
 
-#datazones{
+#datazones {
 	display: table;
 	width: 100%;
 	height: 100%;
@@ -89,7 +85,6 @@ body{
 #datazonesrow {
 	display: table-row;
 }
-
 
 #zone2-container {
 	display: table-cell;
@@ -106,7 +101,7 @@ body{
 	border-radius: 15px;
 }
 
-#zone2 div{
+#zone2 div {
 	padding: 20px;
 }
 
@@ -121,17 +116,17 @@ body{
 	font-size: 18px;
 }
 
-#sitemap-container > ul{
+#sitemap-container>ul {
 	margin-top: 10px;
 }
 
-.ullevel0 > li{
+.ullevel0>li {
 	margin: 16px 0px;
 }
-.ullevel1{
+
+.ullevel1 {
 	margin: 5px 5px 5px 25px;
 }
-
 
 #zone3-container {
 	display: table-cell;
@@ -153,7 +148,7 @@ body{
 	width: 100%;
 }
 
-#data-container > h3 {
+#data-container>h3 {
 	text-align: center;
 	margin-top: 20px;
 }
@@ -162,45 +157,44 @@ body{
 	height: 100%;
 }
 
-
 #children-boxes-container {
 	margin: 20px;
 }
 
-#children-boxes-container > h4 {
+#children-boxes-container>h4 {
 	font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
 }
 
-#children-boxes-container >	ul {
+#children-boxes-container>ul {
 	display: flex;
 	flex-wrap: wrap;
 	list-style-type: none;
 	width: auto;
 }
 
-#children-boxes-container > ul > a {
+#children-boxes-container>ul>a {
 	text-decoration: none;
 	color: initial;
 }
 
-#children-boxes-container >	ul li img {
+#children-boxes-container>ul li img {
 	float: left;
 	margin: 0 15px 0 0;
 	height: 70px;
 	width: 70px;
 }
 
-#children-boxes-container > ul li p {
+#children-boxes-container>ul li p {
 	font: 200 12px/1.5 Georgia, Times New Roman, serif;
 }
 
-#children-boxes-container > ul li {
+#children-boxes-container>ul li {
 	padding: 10px;
 	overflow: auto;
 	width: 400px;
 }
 
-#children-boxes-container > ul li:hover {
+#children-boxes-container>ul li:hover {
 	background: #eee;
 	cursor: pointer;
 }
@@ -214,7 +208,7 @@ body{
 	max-width: 600px;
 }
 
-#error-container > img{
+#error-container>img {
 	height: 60px;
 	width: 60px;
 	margin-right: 20px;

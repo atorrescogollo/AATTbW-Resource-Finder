@@ -57,7 +57,7 @@ function Children2BoxList($children, $prefixHRef, $childrenIdName, $excludedIdAr
 
 function ErrorHTML($title, $description)
 {
-    $sS.= '  <img src="images/warning.png" />';
+    $sS= '  <img src="images/warning.png" />';
     $sS.= '    <h4>'.$title.'</h4>';
     $sS.= '    <div id=error-description-container>';
     $sS.= '      <p>'.$description.'</p>';

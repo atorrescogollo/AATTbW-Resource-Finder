@@ -1,13 +1,14 @@
 <?php
+    $workingdir="working/";
 
     /* DB Settings */
-	$dbServer='localhost';
+    $dbServer='localhost';
     $dbPort=3306;
     $dbDatabase='db';
     $dbUser='user';
     $dbPass='pass';
 
-    /* SiteMap 
+    /* SiteMap
       -----------
         Inicio (0)
         Soluciones (1)
@@ -77,7 +78,7 @@
         "Children" => [
           0 => [
             "Name" => 'Recursos por Comunidad Autónoma',
-            "ModulePath" => $modulesPath.'recursos_ccaa.php'
+            "ModulePath" => $modulesPath.'/recursos_ccaa.php'
           ],
           1 => [
             "Name" => 'Recursos por Provincia',

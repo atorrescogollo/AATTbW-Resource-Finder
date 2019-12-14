@@ -2,6 +2,7 @@
 require_once("includes/HTMLFunctions.php");
 require_once("includes/MySQLFunctions.php");
 require_once("includes/TableFunctions.php");
+require_once("includes/MapFunctions.php");
 require_once("includes/DefaultSettings.php");
 include_once("LocalSettings.php");
 
@@ -106,23 +107,23 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
                             echo "<div id=children-boxes-container>";
                             echo Children2BoxList($current_siteMap['Children'], 'index.php?IdSection=' . $idSection, "IdOperation");
                             echo "</div>";
-						} else { // For operations
-							$moduleloaded=false;
+                        } else { // For operations
+                            $moduleloaded=false;
                             if (array_key_exists('ModulePath', $current_siteMap)) {
                                 $modulePath = $current_siteMap['ModulePath'];
                                 if (file_exists($modulePath)) {
-									echo '<div id=module-container>';
-									include_once($modulePath);
-									echo '</div>';
-									$moduleloaded=true;
-								}
-							}
-							
-							if(!$moduleloaded){
-								echo '<div id=error-container>';
-								echo ErrorHTML("Error en la operación", "La operación solicitada no se encuentra disponible.");
-								echo '</div>';
-							}
+                                    echo '<div id=module-container>';
+                                    include_once($modulePath);
+                                    echo '</div>';
+                                    $moduleloaded=true;
+                                }
+                            }
+                            
+                            if (!$moduleloaded) {
+                                echo '<div id=error-container>';
+                                echo ErrorHTML("Error en la operación", "La operación solicitada no se encuentra disponible.");
+                                echo '</div>';
+                            }
                         }
                         ?>
 					</div>

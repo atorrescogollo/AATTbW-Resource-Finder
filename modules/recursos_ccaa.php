@@ -25,27 +25,30 @@ if (array_key_exists('filter', $_GET)) {
 </div>
 
 <h5 class=step-container-title>Paso 2</h5>
-<div id=step1 class=step-container>
+<div id=step2 class=step-container>
 <?php
 $oMysqli=oAbrirBaseDeDatos();
 $oRS = oGetCCAA($filter);
-
-if (!is_null($oRS)) {
-    if ($oRS->num_rows>0) {
-        echo "<ul>";
-        while ($row = $oRS->fetch_assoc()) {
-            $name = $row["Nombre"];
-            $id = $row["Codigo"];
-            $resources=oGetInfoCA($id)->fetch_assoc()['NumRecursos'];
-            echo "<li>".$name." <a>(Recursos: ".$resources.")</a></li>";
-        }
-        echo "</ul>";
-    }
-    $oRS->free();
-}
+$sTipo = 'CA';
+$aInfo = aGetTable($oRS, $sTipo);
 cerrarBaseDeDatos($oMysqli);
+
+
+echo "<ul>";
+$k_Name=array_search("Nombre", $aInfo[T_DATOS][T_DATOS_CAMPOS]);
+foreach ($aInfo[T_DATOS][T_DATOS_INFO] as $cod => $array_info) {
+    $name=$array_info[$k_Name];
+    $resources=$aInfo[T_DETALLE][$cod][T_DETALLE_RASGOS]["NumRecursos"];
+    echo "<li>".$name." <a>(Recursos: ".$resources.")</a></li>";
+}
+echo "</ul>";
+
+// For map displaying through GET
+file_put_contents($workingdir.'/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
+
 ?>
 </div>
+
 
 <h5 class=step-container-title>Mapa</h5>
 <div id=map class=step-container>

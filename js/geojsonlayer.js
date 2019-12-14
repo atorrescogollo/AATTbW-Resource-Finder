@@ -16,9 +16,9 @@ define([
     "esri/config",
     "dojo/_base/url",
     "dojo/_base/lang"
-],  function (array, declare, Graphic, GraphicsLayer, InfoTemplate, graphicsUtils, Color, SimpleMarkerSymbol,
-        SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, SpatialReference, webMercatorUtils, esriRequest, esriConfig, Url, lang
-    ) {
+], function (array, declare, Graphic, GraphicsLayer, InfoTemplate, graphicsUtils, Color, SimpleMarkerSymbol,
+    SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, SpatialReference, webMercatorUtils, esriRequest, esriConfig, Url, lang
+) {
     return declare([GraphicsLayer], {
 
         // Required Terrformer library reference
@@ -38,7 +38,7 @@ define([
             // Accept data as geojson features array. This will override options.url!
             this._data = options.data;
             // GeoJSON spatial reference (not optional)
-            this._inSpatialReference = new SpatialReference({wkid: 4326});  // Data must be in Geographic Coordinates
+            this._inSpatialReference = new SpatialReference({ wkid: 4326 });  // Data must be in Geographic Coordinates
             // GeoJSON transformation (optional)
             this._outSpatialReference = null;
             // Default popup
@@ -46,8 +46,8 @@ define([
                 this.setInfoTemplate(options.infoTemplate || new InfoTemplate("<strong>${Nombre}</strong>", "${*}"));
 
             }
-			//for(var f in $feature){
-			//console(f + '::' + $feature[f])
+            //for(var f in $feature){
+            //console(f + '::' + $feature[f])
             // Renderer
             if (options.renderer) {
                 this.renderer = options.renderer;
@@ -86,19 +86,19 @@ define([
                 }
             }
             // Random colors
-			
-            // Option to hardcod colors here
-             this._simplePointSym = new SimpleMarkerSymbol(
-					SimpleMarkerSymbol.STYLE_CIRCLE, 12,
-					new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([236, 100, 60, 0.5]),6),
-					new Color([0, 60, 99, 0.9]));
-					
-             //this._simpleLineSym = new SimpleLineSymbol("solid", new Color([170, 61, 22, 0.85]), 3);
-			 this._simpleLineSym = new SimpleLineSymbol("solid", new Color([0, 60, 99, 0.65]), 2);
 
-             this._simplePolygonSym = new SimpleFillSymbol("solid",
-                     new SimpleLineSymbol("solid", new Color([236, 100, 60, 0.80]), 2),
-                     new Color([236,100 ,60, 0.10]));
+            // Option to hardcod colors here
+            this._simplePointSym = new SimpleMarkerSymbol(
+                SimpleMarkerSymbol.STYLE_CIRCLE, 12,
+                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([236, 100, 60, 0.5]), 6),
+                new Color([0, 60, 99, 0.9]));
+
+            //this._simpleLineSym = new SimpleLineSymbol("solid", new Color([170, 61, 22, 0.85]), 3);
+            this._simpleLineSym = new SimpleLineSymbol("solid", new Color([0, 60, 99, 0.65]), 2);
+
+            this._simplePolygonSym = new SimpleFillSymbol("solid",
+                new SimpleLineSymbol("solid", new Color([236, 100, 60, 0.80]), 2),
+                new Color([236, 100, 60, 0.10]));
         },
 
         _setCorsSevers: function () {
@@ -173,7 +173,7 @@ define([
                 // Load data
                 this._getGeoJson(this._data);
             } else if (this._url) {
-                 // XHR request
+                // XHR request
                 this._getGeoJsonXhr(this._url);
             }
         },
@@ -235,25 +235,25 @@ define([
             this.extent = extent;
         },
 
-         // Type functions
+        // Type functions
         _getEsriSymbol: function (geometryType) {
             var sym;
             switch (geometryType) {
-            case "point":
-                sym = this._simplePointSym;
-                break;
-            case "multipoint":
-                sym = this._simplePointSym;
-                break;
-            case "polyline":
-                sym = this._simpleLineSym;
-                break;
-            case "polygon":
-                sym = this._simplePolygonSym;
-                break;
-            case "extent":
-                sym = this._simplePolygonSym;
-                break;
+                case "point":
+                    sym = this._simplePointSym;
+                    break;
+                case "multipoint":
+                    sym = this._simplePointSym;
+                    break;
+                case "polyline":
+                    sym = this._simpleLineSym;
+                    break;
+                case "polygon":
+                    sym = this._simplePolygonSym;
+                    break;
+                case "extent":
+                    sym = this._simplePolygonSym;
+                    break;
             }
             return sym;
         },
@@ -291,7 +291,7 @@ define([
                 feature,
                 graphic;
             // Limit size of data that can be drawn
-			
+
             if (arcgisJson.length > this._maxDraw) {
                 this._drawCountTotal = this._maxDraw;
                 console.warn("GeoJsonLayer Warning: Large dataset detected. Only drawing the first " + this._maxDraw + " features!");
@@ -306,7 +306,7 @@ define([
                 // Add to layer
                 this._addGraphicToLayer(graphic);
             }
-           
+
 
             this.onLoad(this);
         }
