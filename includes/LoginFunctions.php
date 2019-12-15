@@ -5,6 +5,11 @@ include_once("LocalSettings.php");
 function authenticate($username, $password)
 {
     global $aUsuarios;
+
+    if(!preg_match('/^[a-z0-9 _-]{'.PASSWD_MIN_LENGTH.','.PASSWD_MAX_LENGTH.'}$/i', $password)){
+        return null;
+    }
+
     // TODO: MySQL Statement instead
     if (isset($aUsuarios[$username][USU_PASSW]) and $aUsuarios[$username][USU_PASSW] == $password) {
         if (!isset($aUsuarios[$username][USU_ROLES])) {

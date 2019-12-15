@@ -79,6 +79,10 @@ define("USU_ROLES", 2);
 $aUsuarios = array();
 
 
+define('PASSWD_MIN_LENGTH', 6);
+define('PASSWD_MAX_LENGTH', 10);
+
+
 // Default Role hierarchy based on sitemap
 /*
 User role is allowed if:
