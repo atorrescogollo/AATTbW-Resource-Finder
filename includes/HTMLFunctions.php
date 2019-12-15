@@ -3,12 +3,12 @@ function siteMap2UnorderedList($siteMap, $currentSelectorPath, $recursiveLevel =
 {
     global $siteMap_IdNames;
 
-    $selected=false;
+    $selected = false;
     $hrefOperator = (empty($prefixHRef) ? '?' : '&');
     $idName = $siteMap_IdNames[$recursiveLevel];
     $sS = '<ul class=ullevel' . $recursiveLevel . '>';
     foreach ($siteMap as $id => $dataarray) {
-        $selected=false;
+        $selected = false;
         $sS .= '<li>';
         $name = $dataarray['Name'];
 
@@ -17,7 +17,7 @@ function siteMap2UnorderedList($siteMap, $currentSelectorPath, $recursiveLevel =
             $hrefItem .= $hrefOperator . $idName . '=' . $id;
             $styleClass = '';
             if (array_key_exists($recursiveLevel, $currentSelectorPath) and $id == $currentSelectorPath[$recursiveLevel]) {
-                $selected=true;
+                $selected = true;
                 $styleClass = 'class=selected';
             }
             $sS .= '<a ' . $styleClass . ' href="' . $hrefItem . '">' . $name . '</a>';
@@ -25,7 +25,7 @@ function siteMap2UnorderedList($siteMap, $currentSelectorPath, $recursiveLevel =
             $sS .= $name;
         }
         if (array_key_exists('Children', $dataarray) and !empty($dataarray['Children'])) {
-            $sS .= siteMap2UnorderedList($dataarray['Children'], ($selected)?$currentSelectorPath:array(), $recursiveLevel + 1, $hrefItem);
+            $sS .= siteMap2UnorderedList($dataarray['Children'], ($selected) ? $currentSelectorPath : array(), $recursiveLevel + 1, $hrefItem);
         }
         $sS .= '</li>';
     }
@@ -57,10 +57,20 @@ function Children2BoxList($children, $prefixHRef, $childrenIdName, $excludedIdAr
 
 function ErrorHTML($title, $description)
 {
-    $sS= '  <img src="images/warning.png" />';
-    $sS.= '    <h4>'.$title.'</h4>';
-    $sS.= '    <div id=error-description-container>';
-    $sS.= '      <p>'.$description.'</p>';
-    $sS.= '    </div>';
+    $sS = '  <img src="images/warning.png" />';
+    $sS .= '    <h4>' . $title . '</h4>';
+    $sS .= '    <div id=error-description-container>';
+    $sS .= '      <p>' . $description . '</p>';
+    $sS .= '    </div>';
+    return $sS;
+}
+
+
+function ErrorHTMLCondensed($description)
+{
+    $sS = "";
+    $sS .= '    <div id=error-condensed-container>';
+    $sS .= '      <p>' . $description . '</p>';
+    $sS .= '    </div>';
     return $sS;
 }

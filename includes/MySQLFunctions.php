@@ -24,29 +24,29 @@
  **/
 function oGetCCAA($sFiltro = null)
 {
-    /**
-     *  construcción de la consulta de forma incremental en función del estado definido por los
-     *  argumentos de la función.
-     *  Dos estados:
-     *   a) El argumento $sFiltro está vacío, por tanto no procede la claúsula WHERE
-     *   b) El argumento $sFiltro tiene algún valor, es necesario añadir la condición de filtrado
-     */
+	/**
+	 *  construcción de la consulta de forma incremental en función del estado definido por los
+	 *  argumentos de la función.
+	 *  Dos estados:
+	 *   a) El argumento $sFiltro está vacío, por tanto no procede la claúsula WHERE
+	 *   b) El argumento $sFiltro tiene algún valor, es necesario añadir la condición de filtrado
+	 */
 
 
-    /* parte de la sentencia común a los dos estados */
-    $sSQL = ' SELECT sCod AS Codigo, sNombre AS Nombre' .
-        ' FROM Comunidad_Autonoma AS c';
+	/* parte de la sentencia común a los dos estados */
+	$sSQL = ' SELECT sCod AS Codigo, sNombre AS Nombre' .
+		' FROM Comunidad_Autonoma AS c';
 
 
-    /* parte de la sentencia específica para el estado (b) */
-    if (!is_null($sFiltro) && !empty($sFiltro)) {
-        $sSQL .= ' WHERE sNombre LIKE "' . $sFiltro . '%"';
-    }
+	/* parte de la sentencia específica para el estado (b) */
+	if (!is_null($sFiltro) && !empty($sFiltro)) {
+		$sSQL .= ' WHERE sNombre LIKE "' . $sFiltro . '%"';
+	}
 
-    /* parte de la sentencia común a los dos estados */
-    $sSQL .=	 ' ORDER BY Nombre';
+	/* parte de la sentencia común a los dos estados */
+	$sSQL .=	 ' ORDER BY Nombre';
 
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 /**
@@ -81,13 +81,13 @@ function oGetCCAA($sFiltro = null)
  **/
 function oGetInfoCA($sCod)
 {
-    /* validación de los argumentos obligatorios */
-    if (is_null($sCod) or empty($sCod) or !is_numeric($sCod)) {
-        return null;
-    }
+	/* validación de los argumentos obligatorios */
+	if (is_null($sCod) or empty($sCod) or !is_numeric($sCod)) {
+		return null;
+	}
 
 
-    $sSQL =	'
+	$sSQL =	'
 			SELECT c.sCod AS Codigo, c.sNombre AS Nombre, 
 				ST_GeometryType(c.gGeometria) AS Geometria,
 				ST_AsGeoJSON(c.gGeometria) AS GeoJSON, 
@@ -106,7 +106,7 @@ function oGetInfoCA($sCod)
 			FROM Comunidad_Autonoma AS c 
 			WHERE c.sCod=\'' . $sCod . '\'';
 
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 
@@ -141,22 +141,22 @@ function oGetInfoCA($sCod)
  **/
 function oGetProvincias($sFiltro = null, $sCodCA = null)
 {
-    $sSQL = '
+	$sSQL = '
 		SELECT p.sCod as Codigo, p.sNombre as Nombre, c.sCod as CodigoCA, c.sNombre as NombreCA 
 		FROM Provincia as p INNER JOIN Comunidad_Autonoma as c 
 		ON p.sCodCA=c.sCod
 		';
-    $bFiltro = !is_null($sFiltro) and !empty($sFiltro);
-    $bCodCA = !is_null($sCodCA) and !empty($sFiltro) and is_numeric($sFiltro);
-    if ($bFiltro and $bCodCA) {
-        $sSQL .= 'WHERE c.sCod=' . $sCodCA . ' AND p.sNombre LIKE "' . $sFiltro . '%" ';
-    } elseif ($bFiltro) {
-        $sSQL .= 'WHERE p.sNombre LIKE "' . $sFiltro . '%" ';
-    } elseif ($bCodCA) {
-        $sSQL .= 'WHERE c.sCod=' . $sCodCA . ' ';
-    }
-    $sSQL .= 'ORDER BY p.sNombre ASC';
-    return _rsExecQuery($sSQL);
+	$bFiltro = !is_null($sFiltro) and !empty($sFiltro);
+	$bCodCA = !is_null($sCodCA) and !empty($sFiltro) and is_numeric($sFiltro);
+	if ($bFiltro and $bCodCA) {
+		$sSQL .= 'WHERE c.sCod=' . $sCodCA . ' AND p.sNombre LIKE "' . $sFiltro . '%" ';
+	} elseif ($bFiltro) {
+		$sSQL .= 'WHERE p.sNombre LIKE "' . $sFiltro . '%" ';
+	} elseif ($bCodCA) {
+		$sSQL .= 'WHERE c.sCod=' . $sCodCA . ' ';
+	}
+	$sSQL .= 'ORDER BY p.sNombre ASC';
+	return _rsExecQuery($sSQL);
 }
 
 /**
@@ -192,11 +192,11 @@ function oGetProvincias($sFiltro = null, $sCodCA = null)
  **/
 function oGetInfoProvincia($sCod)
 {
-    if (is_null($sCod) or empty($sCod) or !is_numeric($sCod)) {
-        return null;
-    }
+	if (is_null($sCod) or empty($sCod) or !is_numeric($sCod)) {
+		return null;
+	}
 
-    $sSQL = 'SELECT p.sCod as Codigo, p.sNombre as Nombre, 
+	$sSQL = 'SELECT p.sCod as Codigo, p.sNombre as Nombre, 
 				c.sCod as CodigoCA , c.sNombre as NombreCA,
 				ST_GeometryType(p.gGeometria) as Geometria,
 				ST_AsGeoJSON(p.gGeometria) as GeoJSON,
@@ -209,7 +209,7 @@ function oGetInfoProvincia($sCod)
 				ON p.sCodCA=c.sCod
 				WHERE p.sCod=' . $sCod;
 
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 
@@ -234,7 +234,7 @@ function oGetInfoProvincia($sCod)
 
 function oGetTodasCategorias()
 {
-    $sSQL = '
+	$sSQL = '
 		SELECT c.sCod as Codigo, 
 			c.sNombre as Nombre, 
 			COUNT(DISTINCT g.sCodCD) as NumCD, 
@@ -246,7 +246,7 @@ function oGetTodasCategorias()
 				ON g.sCodCD=r.sCodCD
 		GROUP BY c.sCod, c.sNombre
 		';
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 /**
@@ -276,58 +276,58 @@ function oGetTodasCategorias()
 
 function oGetCategorias($aCodCat = null, $aCodPC = null)
 {
-    $sSQL = '
+	$sSQL = '
 			SELECT c.sCod AS Codigo, c.sNombre AS Nombre, 
 					COUNT(DISTINCT cdc.sCodCD) AS NumCD, COUNT(DISTINCT r.sCod) AS NumRecursos 
 			FROM Categoria AS c INNER JOIN ConjuntoDatos_Categoria AS cdc 
 				ON cdc.sCodCat = c.sCod LEFT JOIN Recurso AS r
 				ON r.sCodCD = cdc.sCodCD';
 
-    $sSQLWhere = '';
-    /* condición derivada de $aCodCat */
-    if (!is_null($aCodCat) && is_array($aCodCat) && count($aCodCat) > 0) {
-        $sAux = '';
-        $sAux2 = '';
-        foreach ($aCodCat as $sCod) {
-            $sAux .= (empty($sAux)) ? '' : ' AND ';
-            $sAux2 .= (empty($sAux2)) ? '' : ', ';
-            $sAux .= '
+	$sSQLWhere = '';
+	/* condición derivada de $aCodCat */
+	if (!is_null($aCodCat) && is_array($aCodCat) && count($aCodCat) > 0) {
+		$sAux = '';
+		$sAux2 = '';
+		foreach ($aCodCat as $sCod) {
+			$sAux .= (empty($sAux)) ? '' : ' AND ';
+			$sAux2 .= (empty($sAux2)) ? '' : ', ';
+			$sAux .= '
 					cdc.sCodCD IN ( SELECT DISTINCT sCodCD
 									FROM ConjuntoDatos_Categoria
 									WHERE sCodCat =\'' . $sCod . '\'
 									)';
-            $sAux2 .=	"'$sCod'";
-        }
-        $sSQLWhere .= '
+			$sAux2 .=	"'$sCod'";
+		}
+		$sSQLWhere .= '
 					WHERE ' . $sAux . '
 					AND c.sCod NOT IN (' . $sAux2 . ') ';
-    }
+	}
 
-    /* condición derivada de $aCodPC */
-    if (!is_null($aCodPC) && is_array($aCodPC) && count($aCodPC) > 0) {
-        $sAux = '';
-        foreach ($aCodPC as $sCod) {
-            $sAux .= (empty($sAux)) ? '' : ' AND ';
-            $sAux .= '
+	/* condición derivada de $aCodPC */
+	if (!is_null($aCodPC) && is_array($aCodPC) && count($aCodPC) > 0) {
+		$sAux = '';
+		foreach ($aCodPC as $sCod) {
+			$sAux .= (empty($sAux)) ? '' : ' AND ';
+			$sAux .= '
 					cdc.sCodCD IN ( SELECT DISTINCT sCodCD
 									FROM ConjuntoDatos_PalabrasClave
 									WHERE sCodPC =\'' . $sCod . '\'
 									)';
-        }
-        $sSQLWhere .= ((empty($sSQLWhere)) ? '
+		}
+		$sSQLWhere .= ((empty($sSQLWhere)) ? '
 						WHERE ' : '
 						AND ') . $sAux;
-    }
+	}
 
 
-    /* parte de la sentencia común a todos los estados */
-    $sSQL .=	$sSQLWhere . '
+	/* parte de la sentencia común a todos los estados */
+	$sSQL .=	$sSQLWhere . '
 			GROUP BY c.sCod, c.sNombre
 			ORDER BY Nombre';
 
 
-    //echo PHP_EOL.$sSQL.PHP_EOL;
-    return _rsExecQuery($sSQL);
+	//echo PHP_EOL.$sSQL.PHP_EOL;
+	return _rsExecQuery($sSQL);
 }
 
 
@@ -352,7 +352,7 @@ function oGetCategorias($aCodCat = null, $aCodPC = null)
 
 function oGetTodasPalabrasClave()
 {
-    $sSQL = 'SELECT pc.sCod as Codigo, pc.sNombre as Nombre, COUNT(DISTINCT cd.sCod) as NumCD, COUNT(DISTINCT r.sCod) as NumRecursos
+	$sSQL = 'SELECT pc.sCod as Codigo, pc.sNombre as Nombre, COUNT(DISTINCT cd.sCod) as NumCD, COUNT(DISTINCT r.sCod) as NumRecursos
 				FROM Palabras_Clave as pc 
 					LEFT JOIN ConjuntoDatos_PalabrasClave as cdpc 
 						ON pc.sCod=cdpc.sCodPC 
@@ -363,7 +363,7 @@ function oGetTodasPalabrasClave()
 					GROUP BY pc.sCod 
 					ORDER BY pc.sNombre ASC
 				';
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 /**
@@ -393,7 +393,7 @@ function oGetTodasPalabrasClave()
 
 function oGetPalabrasClave($aCodCat = null, $aCodPC = null)
 {
-    $sSQL = 'SELECT pc.sCod as Codigo, pc.sNombre as Nombre, COUNT(DISTINCT cd.sCod) as NumCD, COUNT(DISTINCT r.sCod) as NumRecursos
+	$sSQL = 'SELECT pc.sCod as Codigo, pc.sNombre as Nombre, COUNT(DISTINCT cd.sCod) as NumCD, COUNT(DISTINCT r.sCod) as NumRecursos
 	FROM Palabras_Clave as pc 
 		INNER JOIN ConjuntoDatos_PalabrasClave as cdpc 
 			ON pc.sCod=cdpc.sCodPC 
@@ -403,49 +403,49 @@ function oGetPalabrasClave($aCodCat = null, $aCodPC = null)
 			ON r.sCodCD=cd.sCod
 		';
 
-    $sSQLWhereClause = '';
+	$sSQLWhereClause = '';
 
-    $bCodPC = !is_null($aCodPC) and is_array($aCodPC) and count($aCodPC) > 0;
-    $bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
-    if ($bCodPC) {
-        $aux = '';
-        $aux2 = '';
-        foreach ($aCodPC as $i) {
-            $aux .= (empty($aux) ? '' : ' AND ');
-            $aux2 .= (empty($aux2) ? '' : ' , ');
-            $aux .= '
+	$bCodPC = !is_null($aCodPC) and is_array($aCodPC) and count($aCodPC) > 0;
+	$bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
+	if ($bCodPC) {
+		$aux = '';
+		$aux2 = '';
+		foreach ($aCodPC as $i) {
+			$aux .= (empty($aux) ? '' : ' AND ');
+			$aux2 .= (empty($aux2) ? '' : ' , ');
+			$aux .= '
 				cdpc.sCodCD IN (
 					SELECT DISTINCT sCodCD
 					FROM ConjuntoDatos_PalabrasClave
 					WHERE sCodPC = \'' . $i . '\'
 				)
 			';
-            $aux2 .= '\'' . $i . '\'';
-        }
-        $sSQLWhereClause .= '
+			$aux2 .= '\'' . $i . '\'';
+		}
+		$sSQLWhereClause .= '
 			WHERE ' . $aux . ' AND pc.sCod NOT IN (' . $aux2 . ')
 		';
-    }
-    if ($bCodCat) {
-        $aux = '';
-        foreach ($aCodCat as $i) {
-            $aux .= (empty($aux)) ? '' : ' AND ';
-            $aux .= '
+	}
+	if ($bCodCat) {
+		$aux = '';
+		foreach ($aCodCat as $i) {
+			$aux .= (empty($aux)) ? '' : ' AND ';
+			$aux .= '
 				cdpc.sCodCD IN (
 					SELECT DISTINCT sCodCD
 					FROM ConjuntoDatos_Categoria
 					WHERE sCodCat = \'' . $i . '\'
 				)
 			';
-        }
-        $sSQLWhereClause .= ' ' . ((empty($sSQLWhereClause)) ? ' WHERE ' : ' AND ') . $aux . ' ';
-    }
+		}
+		$sSQLWhereClause .= ' ' . ((empty($sSQLWhereClause)) ? ' WHERE ' : ' AND ') . $aux . ' ';
+	}
 
-    $sSQL .= $sSQLWhereClause . '
+	$sSQL .= $sSQLWhereClause . '
 		GROUP BY pc.sCod , pc.sNombre
 		ORDER BY pc.sNombre ASC
 	';
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 /** ********************************************************************
@@ -473,7 +473,7 @@ function oGetPalabrasClave($aCodCat = null, $aCodPC = null)
 
 function oGetTodosConjuntosDatos()
 {
-    $sSQL = '
+	$sSQL = '
 		SELECT 
 			cd.sCod as Codigo, 
 			cd.sNombre as Nombre, 
@@ -495,7 +495,7 @@ function oGetTodosConjuntosDatos()
 			GROUP BY cd.sCod
 			ORDER BY cd.sNombre ASC
 	';
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 /**
@@ -534,7 +534,7 @@ function oGetTodosConjuntosDatos()
 
 function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 {
-    $sSQL = 'SELECT 
+	$sSQL = 'SELECT 
 			cd.sCod as Codigo, 
 			cd.sNombre as Nombre, 
 			cd.tDescripcion as Descripcion, 
@@ -554,13 +554,13 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 			ON r.sCodCD=cd.sCod
 	';
 
-    $bCod = !is_null($sCod) and is_numeric($sCod);
-    if ($bCod) {
-        $sSQL .= " WHERE cd.sCod='" . $sCod . "' ";
-    } else {
-        $bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
-        if ($bCodCat) {
-            $aux['Cat'] = '
+	$bCod = !is_null($sCod) and is_numeric($sCod);
+	if ($bCod) {
+		$sSQL .= " WHERE cd.sCod='" . $sCod . "' ";
+	} else {
+		$bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
+		if ($bCodCat) {
+			$aux['Cat'] = '
 				SELECT cd.sCod as sCodCD
 				FROM Conjunto_Datos as cd
 				INNER JOIN ConjuntoDatos_Categoria as cdc
@@ -569,11 +569,11 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 				GROUP BY cd.sCod
 				HAVING COUNT(DISTINCT cdc.sCodCat)=' . count($aCodCat) . '
 			';
-        }
+		}
 
-        $bCodPC = !is_null($aCodPC) and is_array($aCodPC) and count($aCodPC) > 0;
-        if ($bCodPC) {
-            $aux['PC'] = '
+		$bCodPC = !is_null($aCodPC) and is_array($aCodPC) and count($aCodPC) > 0;
+		if ($bCodPC) {
+			$aux['PC'] = '
 				SELECT cdpc.sCodCD
 				FROM Conjunto_Datos as cd
 				INNER JOIN ConjuntoDatos_PalabrasClave as cdpc
@@ -582,11 +582,11 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 				GROUP BY cdpc.sCodCD
 				HAVING COUNT(DISTINCT cdpc.sCodPC)=' . count($aCodPC) . '
 			';
-        }
+		}
 
-        switch (count($aux)) { // How many filters to apply?
-            case 2: // Merge tables
-                $filtertable = '
+		switch (count($aux)) { // How many filters to apply?
+			case 2: // Merge tables
+				$filtertable = '
 					SELECT cat.sCodCD
 					FROM (
 						' . $aux['Cat'] . '
@@ -596,24 +596,24 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 					) as pc
 					ON pc.sCodCD=cat.sCodCD
 				';
-                break;
-            case 1: // Get first (unique) filter
-                $filtertable = reset($aux);
-                break;
-        }
-        if (isset($filtertable)) {
-            $sSQL .= '
+				break;
+			case 1: // Get first (unique) filter
+				$filtertable = reset($aux);
+				break;
+		}
+		if (isset($filtertable)) {
+			$sSQL .= '
 			WHERE cd.sCod IN (
 				' . $filtertable . '
 			)';
-        }
-    }
+		}
+	}
 
-    $sSQL .= '
+	$sSQL .= '
 		GROUP BY cd.sCod
 		ORDER BY cd.sNombre ASC
 	';
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 
@@ -658,9 +658,9 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
  **/
 function oGetInfoRecurso($sCod)
 {
-    $sSQL = null;
-    if (!is_null($sCod)) {
-        $sSQL = 'SELECT 
+	$sSQL = null;
+	if (!is_null($sCod)) {
+		$sSQL = 'SELECT 
 			r.sCod as Codigo, r.sNombre as Nombre,
 			cd.sCod as CodigoCD, cd.sNombre as NombreCD,
 			GROUP_CONCAT(DISTINCT p.sNombre SEPARATOR \';\') as Provincias,
@@ -679,8 +679,8 @@ function oGetInfoRecurso($sCod)
 			WHERE r.sCod=\'' . $sCod . '\'
 			GROUP BY r.sCod
 		';
-    }
-    return _rsExecQuery($sSQL);
+	}
+	return _rsExecQuery($sSQL);
 }
 
 /**
@@ -702,16 +702,16 @@ function oGetInfoRecurso($sCod)
  **/
 function oGetRasgosRecurso($sCod)
 {
-    $sSQL=null;
-    if (!is_null($sCod)) {
-        $sSQL='SELECT rg.sCod as Codigo, rg.sNombre as Nombre, rr.sValor as Valor
+	$sSQL = null;
+	if (!is_null($sCod)) {
+		$sSQL = 'SELECT rg.sCod as Codigo, rg.sNombre as Nombre, rr.sValor as Valor
 			FROM Rasgo as rg
 				INNER JOIN Recurso_Rasgo as rr
 					ON rr.sCodRasgo=rg.sCod
-			WHERE rr.sCodRecurso=\''.$sCod.'\'
+			WHERE rr.sCodRecurso=\'' . $sCod . '\'
 		';
-    }
-    return _rsExecQuery($sSQL);
+	}
+	return _rsExecQuery($sSQL);
 }
 
 
@@ -761,20 +761,20 @@ function oGetRasgosRecurso($sCod)
 
 function oGetRecursos($sCodCD = null, $sFiltro = null)
 {
-    $sSQL=null;
-    $sSQLWhereClause='';
-    $bCodCD=!is_null($sCodCD);
-    $bFiltro=!is_null($sFiltro);
-    if ($bCodCD) {
-        $sSQLWhereClause.=' WHERE r.sCodCD=\'' . $sCodCD . '\' ';
-    }
-    if ($bFiltro) {
-        $sSQLWhereClause.=(empty($sSQLWhereClause))?' WHERE ':' AND ';
-        $sSQLWhereClause.='r.sNombre LIKE \'%'.$sFiltro.'%\' ';
-    }
+	$sSQL = null;
+	$sSQLWhereClause = '';
+	$bCodCD = !is_null($sCodCD);
+	$bFiltro = !is_null($sFiltro);
+	if ($bCodCD) {
+		$sSQLWhereClause .= ' WHERE r.sCodCD=\'' . $sCodCD . '\' ';
+	}
+	if ($bFiltro) {
+		$sSQLWhereClause .= (empty($sSQLWhereClause)) ? ' WHERE ' : ' AND ';
+		$sSQLWhereClause .= 'r.sNombre LIKE \'%' . $sFiltro . '%\' ';
+	}
 
-    if (!empty($sSQLWhereClause)) {
-        $sSQL = 'SELECT 
+	if (!empty($sSQLWhereClause)) {
+		$sSQL = 'SELECT 
 				r.sCod as Codigo, r.sNombre as Nombre,
 				cd.sCod as CodigoCD, cd.sNombre as NombreCD,
 				GROUP_CONCAT(DISTINCT p.sNombre SEPARATOR \';\') as Provincias,
@@ -790,13 +790,13 @@ function oGetRecursos($sCodCD = null, $sFiltro = null)
 					ON p.sCod=rp.sCodProvincia
 				INNER JOIN Recurso_Rasgo as rr
 					ON rr.sCodRecurso=r.sCod 
-				'.$sSQLWhereClause.'
+				' . $sSQLWhereClause . '
 				GROUP BY r.sCod
 				ORDER BY r.sNombre ASC
 			';
-    }
+	}
 
-    return _rsExecQuery($sSQL);
+	return _rsExecQuery($sSQL);
 }
 
 
@@ -811,16 +811,16 @@ function oGetRecursos($sCodCD = null, $sFiltro = null)
  **/
 function _rsExecQuery($sSQL)
 {
-    global $oMysqli;
+	global $oMysqli;
 
-    $rs = null;
-    if (!empty($sSQL)) {
-        if (($rs = $oMysqli->query($sSQL)) === false) {
-            printf("Consulta incorrecta: %s\nQuery: %s\n", $oMysqli->error, $sSQL);
-            $rs = null;
-        }
-    }
-    return $rs;
+	$rs = null;
+	if (!empty($sSQL)) {
+		if (($rs = $oMysqli->query($sSQL)) === false) {
+			printf("Consulta incorrecta: %s\nQuery: %s\n", $oMysqli->error, $sSQL);
+			$rs = null;
+		}
+	}
+	return $rs;
 }
 
 
@@ -831,18 +831,18 @@ function _rsExecQuery($sSQL)
  **/
 function oAbrirBaseDeDatos()
 {
-    global $dbServer,$dbPort,$dbDatabase,$dbUser,$dbPass;
-    $oMysqli = new mysqli($dbServer, $dbUser, $dbPass, $dbDatabase, $dbPort);
+	global $dbServer, $dbPort, $dbDatabase, $dbUser, $dbPass;
+	$oMysqli = new mysqli($dbServer, $dbUser, $dbPass, $dbDatabase, $dbPort);
 
-    if ($oMysqli->connect_error) {
-        die('Error de conexión (' . $oMysqli->connect_errno . ') ' . $oMysqli->connect_error);
-    }
-    if (!$oMysqli->set_charset("utf8")) {
-        printf("Error cargando charset utf8: %s\n", $oMysqli->error);
-    }
-    /* configuracion del idioma */
-    $oMysqli->query("SET lc_time_names = 'es_ES'");
-    return $oMysqli;
+	if ($oMysqli->connect_error) {
+		die('Error de conexión (' . $oMysqli->connect_errno . ') ' . $oMysqli->connect_error);
+	}
+	if (!$oMysqli->set_charset("utf8")) {
+		printf("Error cargando charset utf8: %s\n", $oMysqli->error);
+	}
+	/* configuracion del idioma */
+	$oMysqli->query("SET lc_time_names = 'es_ES'");
+	return $oMysqli;
 } // abrirBaseDeDatos
 
 /**
@@ -851,7 +851,7 @@ function oAbrirBaseDeDatos()
  **/
 function cerrarBaseDeDatos($oMysqli)
 {
-    if (is_object($oMysqli) && get_class($oMysqli) == 'mysqli') {
-        $oMysqli->close();
-    }
+	if (is_object($oMysqli) && get_class($oMysqli) == 'mysqli') {
+		$oMysqli->close();
+	}
 } // cerrarBaseDeDatos
