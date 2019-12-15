@@ -47,7 +47,7 @@ function Children2BoxList($children, $prefixHRef, $childrenIdName, $excludedIdAr
             $sS .= '<h4>' . $data['Name'] . '</h4>';
             $sS .= '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent euismod ultrices ante, ac laoreet nulla vestibulum adipiscing. Nam quis justo in augue auctor imperdiet.</p>';
             $sS .= '</li>';
-            $sS .= '<a>';
+            $sS .= '</a>';
         }
     }
     $sS .= '</ul>';
