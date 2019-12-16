@@ -558,6 +558,7 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 	if ($bCod) {
 		$sSQL .= " WHERE cd.sCod='" . $sCod . "' ";
 	} else {
+		$aux=array();
 		$bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
 		if ($bCodCat) {
 			$aux['Cat'] = '

@@ -64,6 +64,7 @@ $siteMap[3] = [
     ],
     2 => [
       "Name" => 'Buscador de Conjuntos de Datos',
+      "ModulePath" => $modulesPath . '/buscador_recursos.php'
     ],
     3 => [
       "Name" => 'Explorador de recursos',
