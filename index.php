@@ -47,7 +47,9 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 	<link rel="shortcut icon" type="image/png" href="images/logo.png" />
 
 	<link href="css/aattbw.css" rel="stylesheet" type="text/css" />
+	<script src="js/aattbw.js"></script>
 	<link href="css/modules.css" rel="stylesheet" type="text/css" />
+	<script src="js/modules.js"></script>
 
 	<link href="css/aattbw_ArcGIS.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="https://js.arcgis.com/3.26/esri/css/esri.css">
@@ -70,7 +72,7 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 			<?php
 			if (isset($_SESSION["Authenticated"]) and $_SESSION["Authenticated"]) {
 				echo '
-					<form method=\'POST\' action=\'login.php\'>
+					<form id=logoutform method=\'POST\' action=\'login.php\'>
 						<input type="hidden" name="action" value="logout">
 						<label class="labelbox">Hola, ' . $_SESSION["Userdata"]["Nombre"] . '</label>
 						<button type="submit">Salir</button>
@@ -78,7 +80,7 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 				';
 			} else {
 				echo '
-					<form method=\'POST\' action=\'login.php\'>
+					<form id=loginform method=\'POST\' action=\'login.php\' onsubmit="return validateLogin()">
 						<input type="hidden" name="action" value="login">
 						<label class="labelbox" for="username">Login</label>
 						<input type="text" name="username">

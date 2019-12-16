@@ -4,7 +4,7 @@ if (array_key_exists('filter', $_GET)) {
     $filter = $_GET['filter'];
 
     // Sanitize SQLi
-    if (!preg_match('/^[a-z0-9 ]*$/i', $filter)) {
+    if (!preg_match('/^[a-z]+[a-z -]*$/i', $filter)) {
         // Clean filter parameter
         header("Location: index.php?IdSection=" . $idSection . "&IdOperation=" . $idOperation);
         die();
@@ -13,7 +13,7 @@ if (array_key_exists('filter', $_GET)) {
 ?>
 <h5 class=step-container-title>Paso 1</h5>
 <div id=step1 class=step-container>
-    <form action="index.php">
+    <form id=filterform action="index.php" onsubmit="return validateFilter();">
         <?php
         echo '<input type="hidden" name="IdSection" value="' . $idSection . '" />';
         echo '<input type="hidden" name="IdOperation" value="' . $idOperation . '" />';

@@ -6,7 +6,7 @@ function authenticate($username, $password)
 {
     global $aUsuarios;
 
-    if(!preg_match('/^[a-z0-9 _-]{'.PASSWD_MIN_LENGTH.','.PASSWD_MAX_LENGTH.'}$/i', $password)){
+    if(!preg_match('/^[a-z0-9_-]{'.PASSWD_MIN_LENGTH.','.PASSWD_MAX_LENGTH.'}$/i', $password)){
         return null;
     }
 
