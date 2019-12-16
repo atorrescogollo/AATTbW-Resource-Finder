@@ -105,3 +105,16 @@
     padding: 2px;
     font-size: 14px;
 }
+
+#active-filters td {
+    padding-right: 15px;
+}
+
+.filterselectedbox {
+    margin: 2px 5px;
+    display: inline-block;
+}
+
+.filterselectedbox>a {
+    margin-right: 5px;
+}
