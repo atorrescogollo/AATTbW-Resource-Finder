@@ -169,7 +169,7 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 		</div>
 	</div>
 	<div id="zone4" class="dockbar">
-		<p>Temporal</p>
+		<!-- <p>Temporal</p> -->
 	</div>
 </body>
 

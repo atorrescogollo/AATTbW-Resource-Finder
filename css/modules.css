@@ -27,6 +27,15 @@
     min-width: 100px;
 }
 
+#module-container>#notification-condensed-container {
+    background-color: rgb(162, 162, 162);
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(82, 124, 128);
+    border-radius: 10px;
+    margin: 30px;
+    padding: 15px 35px;
+}
+
 #step2 {
     max-height: 180px;
     overflow: scroll;
@@ -104,6 +113,11 @@
     border-bottom: 1pt solid black;
     padding: 2px;
     font-size: 14px;
+}
+
+#categories-filter>li,
+#keywords-filter>li {
+    font: bold 14px/1.5 Helvetica, Verdana, sans-serif;
 }
 
 #active-filters td {

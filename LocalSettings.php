@@ -8,7 +8,7 @@ $dbPass = 'aattbw';
 
 $aUsuarios = array(
     "admin" => array("pass_admin", "Administrador", ["Owner"]),
-    "usu1@tecweb.es" => array("pass_usu1", "Pedro Levante Pérez"),
+    "usu1@tecweb.es" => array("pass_usu1", "Pedro Levante Pérez", ["Owner"]),
     "usu2@tecweb.es" => array("pass_usu2", "Joaquín Cacho Gordo"),
     "usu3@tecweb.es" => array("pass_usu3", "Pepe Roa Barata")
 );

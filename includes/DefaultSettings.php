@@ -94,9 +94,12 @@ User role is allowed if:
 $roles = array(
   "All" => [ // Only allowed to see first
     0 => true,
-    1 => [],
-    2 => [],
-    3 => []
+    //1 => [],
+    //2 => [],
+    //3 => []
+    1 => true,
+    2 => true,
+    3 => true
   ],
   "Owner" => true, // All to see everything
   "Authenticated" => [ // Allowed to see first and last sections
@@ -105,7 +108,7 @@ $roles = array(
     2 => [],
     3 => [
       0 => true,
-      1 => true,
+      1 => false,
       2 => true,
       3 => false
     ]

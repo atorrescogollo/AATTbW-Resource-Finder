@@ -23,35 +23,43 @@ if (array_key_exists('filter', $_GET)) {
         <button type="submit">Buscar</button>
     </form>
 </div>
+<?php
+if (!empty($filter)) {
 
-<h5 class=step-container-title>Paso 2</h5>
-<div id=step2 class=step-container>
-    <?php
     $oMysqli = oAbrirBaseDeDatos();
     $oRS = oGetCCAA($filter);
     $sTipo = 'CA';
     $aInfo = aGetTable($oRS, $sTipo);
     cerrarBaseDeDatos($oMysqli);
 
+    if (count($aInfo) > 0) {
 
-    echo "<ul>";
-    $k_Name = array_search("Nombre", $aInfo[T_DATOS][T_DATOS_CAMPOS]);
-    foreach ($aInfo[T_DATOS][T_DATOS_INFO] as $cod => $array_info) {
-        $name = $array_info[$k_Name];
-        $resources = $aInfo[T_DETALLE][$cod][T_DETALLE_RASGOS]["NumRecursos"];
-        echo "<li>" . $name . " <a>(Recursos: " . $resources . ")</a></li>";
-    }
-    echo "</ul>";
+        echo '<h5 class=step-container-title>Paso 2</h5>';
+        echo '<div id=step2 class=step-container>';
+        echo "<ul>";
+        $k_Name = array_search("Nombre", $aInfo[T_DATOS][T_DATOS_CAMPOS]);
+        foreach ($aInfo[T_DATOS][T_DATOS_INFO] as $cod => $array_info) {
+            $name = $array_info[$k_Name];
+            $resources = $aInfo[T_DETALLE][$cod][T_DETALLE_RASGOS]["NumRecursos"];
+            echo "<li>" . $name . " <a>(Recursos: " . $resources . ")</a></li>";
+        }
+        echo "</ul>";
 
-    // For map displaying through GET
-    file_put_contents($workingdir . '/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
+        // For map displaying through GET
+        file_put_contents($workingdir . '/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
 
-    ?>
-</div>
+        echo '</div>';
 
-
-<h5 class=step-container-title>Mapa</h5>
-<div id=map class=step-container>
+        echo '
+    <h5 class=step-container-title>Mapa</h5>
+    <div id=map class=step-container>
     <div id="mapArcGIS"></div>
     <script src="js/apiArcGIS.js" type="text/javascript"></script>
-</div>
+    </div>
+    ';
+    }
+    else{
+        echo NotificationHTMLCondensed("No se encontraron resultados");
+    }
+}
+?>

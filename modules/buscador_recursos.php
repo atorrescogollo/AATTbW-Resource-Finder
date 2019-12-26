@@ -87,7 +87,7 @@ $oMysqli = oAbrirBaseDeDatos();
                                 } else { // Not selected
                                     $href = prepareHRef('add', 'Categories', $nombreCategoria); // Append to last search array
                                 }
-                                echo '<li><a href="' . $href . '">' . $nombreCategoria . ' (' . $numCD . ')</a></li>';
+                                echo '<li><span class=filterselectedbox><img src="images/item-icon.png" style="height: 12px;"/><a href="' . $href . '">' . $nombreCategoria . ' (' . $numCD . ')</a></span></li>';
                             }
                             ?>
                         </ul>

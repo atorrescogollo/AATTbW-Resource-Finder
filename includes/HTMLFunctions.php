@@ -55,6 +55,15 @@ function Children2BoxList($children, $prefixHRef, $childrenIdName, $excludedIdAr
 }
 
 
+function NotificationHTMLCondensed($description)
+{
+    $sS = "";
+    $sS .= '    <div id=notification-condensed-container>';
+    $sS .= '      <p>' . $description . '</p>';
+    $sS .= '    </div>';
+    return $sS;
+}
+
 function ErrorHTML($title, $description)
 {
     $sS = '  <img src="images/warning.png" />';
@@ -64,7 +73,6 @@ function ErrorHTML($title, $description)
     $sS .= '    </div>';
     return $sS;
 }
-
 
 function ErrorHTMLCondensed($description)
 {
