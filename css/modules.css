@@ -19,8 +19,14 @@
     margin: 0 30px;
 }
 
-#step1>form>input {
+#step1>form>input,
+#step1>form>select {
     min-width: 40%;
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa no-repeat 90% 50%;
 }
 
 #step1>form>button {

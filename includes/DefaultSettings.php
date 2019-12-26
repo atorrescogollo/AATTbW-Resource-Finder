@@ -61,6 +61,7 @@ $siteMap[3] = [
     ],
     1 => [
       "Name" => 'Recursos por Provincia',
+      "ModulePath" => $modulesPath . '/recursos_provincia.php'
     ],
     2 => [
       "Name" => 'Buscador de Conjuntos de Datos',
