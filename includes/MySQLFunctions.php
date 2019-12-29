@@ -146,9 +146,9 @@ function oGetProvincias($sFiltro = null, $sCodCA = null)
 		FROM Provincia as p INNER JOIN Comunidad_Autonoma as c 
 		ON p.sCodCA=c.sCod
 		';
-	$bFiltro = !is_null($sFiltro) and !empty($sFiltro);
-	$bCodCA = !is_null($sCodCA) and !empty($sFiltro) and is_numeric($sFiltro);
-	if ($bFiltro and $bCodCA) {
+	$bFiltro = !is_null($sFiltro) && !empty($sFiltro);
+	$bCodCA = !is_null($sCodCA) && !empty($sFiltro) && is_numeric($sFiltro);
+	if ($bFiltro && $bCodCA) {
 		$sSQL .= 'WHERE c.sCod=' . $sCodCA . ' AND p.sNombre LIKE "' . $sFiltro . '%" ';
 	} elseif ($bFiltro) {
 		$sSQL .= 'WHERE p.sNombre LIKE "' . $sFiltro . '%" ';
@@ -405,8 +405,8 @@ function oGetPalabrasClave($aCodCat = null, $aCodPC = null)
 
 	$sSQLWhereClause = '';
 
-	$bCodPC = !is_null($aCodPC) and is_array($aCodPC) and count($aCodPC) > 0;
-	$bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
+	$bCodPC = isset($aCodPC) && is_array($aCodPC) && count($aCodPC) > 0;
+	$bCodCat = isset($aCodCat) && is_array($aCodCat) && count($aCodCat) > 0;
 	if ($bCodPC) {
 		$aux = '';
 		$aux2 = '';
@@ -554,12 +554,12 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 			ON r.sCodCD=cd.sCod
 	';
 
-	$bCod = !is_null($sCod) and is_numeric($sCod);
+	$bCod = !is_null($sCod) && is_numeric($sCod);
 	if ($bCod) {
 		$sSQL .= " WHERE cd.sCod='" . $sCod . "' ";
 	} else {
 		$aux=array();
-		$bCodCat = !is_null($aCodCat) and is_array($aCodCat) and count($aCodCat) > 0;
+		$bCodCat = !is_null($aCodCat) && is_array($aCodCat) && count($aCodCat) > 0;
 		if ($bCodCat) {
 			$aux['Cat'] = '
 				SELECT cd.sCod as sCodCD
@@ -572,7 +572,7 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 			';
 		}
 
-		$bCodPC = !is_null($aCodPC) and is_array($aCodPC) and count($aCodPC) > 0;
+		$bCodPC = !is_null($aCodPC) && is_array($aCodPC) && count($aCodPC) > 0;
 		if ($bCodPC) {
 			$aux['PC'] = '
 				SELECT cdpc.sCodCD
@@ -592,7 +592,7 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 					FROM (
 						' . $aux['Cat'] . '
 					) as cat
-					LEFT JOIN (
+					INNER JOIN (
 						' . $aux['PC'] . '
 					) as pc
 					ON pc.sCodCD=cat.sCodCD
@@ -614,6 +614,7 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 		GROUP BY cd.sCod
 		ORDER BY cd.sNombre ASC
 	';
+
 	return _rsExecQuery($sSQL);
 }
 

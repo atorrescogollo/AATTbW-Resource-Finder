@@ -174,9 +174,3 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 </body>
 
 </html>
-
-<?php
-if (!isset($_SESSION["Authenticated"])) { // Destroy useless sessions
-	session_destroy();
-}
-?>
