@@ -47,7 +47,7 @@ $oMysqli = oAbrirBaseDeDatos();
                             $nombreCategoria = $row['Nombre'];
                             $numCD = $row["NumCD"];
                             $_SESSION['cache']['Cat'][$codeCategoria]['name'] = $nombreCategoria;
-                            echo '<li><a href="' . $href . '&addCat=' . $codeCategoria . '">' . $nombreCategoria . ' (' . $numCD . ')</a></span></li>';
+                            echo '<li><a href="' . $href . '&addCat=' . $codeCategoria . '">' . $nombreCategoria . ' <span>' . $numCD . '</span></a></li>';
                         }
                         ?>
                     </ul>
@@ -63,7 +63,7 @@ $oMysqli = oAbrirBaseDeDatos();
                             $numCD = $row["NumCD"];
 
                             $_SESSION['cache']['KW'][$codeKW]['name'] = $nombreKW;
-                            echo '<li><a href="' . $href . '&addKW=' . $codeKW . '">' . $nombreKW . ' (' . $numCD . ')</a></li>';
+                            echo '<li><a href="' . $href . '&addKW=' . $codeKW . '">' . $nombreKW . ' <span>' . $numCD . '<span></a></li>';
                         }
                         ?>
                     </ul>
@@ -71,7 +71,12 @@ $oMysqli = oAbrirBaseDeDatos();
             </div>
         </div>
         <div id=data-template class=centerpanel>
-            <h5 class=step-container-title>Filtros Activos</h5>
+            <h5 class=step-container-title>Filtros Activos
+                <?php
+                if (count($_SESSION['filter']['Cat']) > 0 || count($_SESSION['filter']['KW']) > 0)
+                    echo '<a href="' . $href . '&reset_filters=true"><img src="images/delete-icon.png" style="height: 12px;margin-left:25px"/></a>';
+                ?>
+            </h5>
             <div id=active-filters class=step-container>
                 <table>
                     <tr>
@@ -108,7 +113,7 @@ $oMysqli = oAbrirBaseDeDatos();
                         $numRecursos = str_replace(';', ', ', $row['NumRecursos']);
 
                         echo '<li class=flexdatabox-item>';
-                        echo '<h4>' . $nombreCD . '</h4>';
+                        echo '<h4><img src="images/item.png" height=10px/>' . $nombreCD . '</h4>';
                         echo '<p style="font-size: 12px;">' . $descripcion . '</p>';
                         echo '<table>';
                         echo '<tr>';

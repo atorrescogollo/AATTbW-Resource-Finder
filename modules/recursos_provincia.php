@@ -30,7 +30,7 @@ if (array_key_exists('codCA', $_GET)) {
             <?php
             foreach ($aInfo[T_DATOS][T_DATOS_INFO] as $cod => $avalue) {
                 $name = $avalue[0];
-                echo '<option value="' . $cod . '" '.(($cod==$codCA)?'selected="selected"':''). '>' . $name . '</option>';
+                echo '<option value="' . $cod . '" ' . (($cod == $codCA) ? 'selected="selected"' : '') . '>' . $name . '</option>';
             }
             ?>
         </select>

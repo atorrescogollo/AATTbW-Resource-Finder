@@ -24,6 +24,14 @@
     font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
+a:link,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+    color: black;
+}
+
 body {
     position: absolute;
     top: 0;
@@ -106,7 +114,7 @@ li a {
 }
 
 #zone2 div {
-    padding: 20px;
+    padding: 20px 5px;
 }
 
 #sitemap-container {
@@ -114,9 +122,14 @@ li a {
     margin-right: 10px;
 }
 
-#sitemap-container .selected {
-    color: rgb(82, 124, 128);
-    font-weight: bolder;
+#sitemap-container>h3 {
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+}
+
+#sitemap-container .ullevel1 .selected {
+    font-weight: bold;
     font-size: 15px;
 }
 
@@ -124,14 +137,41 @@ li a {
     margin-top: 10px;
 }
 
+#sitemap-container a {
+    display: block;
+    text-decoration: none;
+    margin: 2px 1px;
+    padding: 2px 1px;
+}
+
 .ullevel0>li {
-    margin: 16px 0px;
+    margin-top: 25px;
+    margin-bottom: 5px;
     font: bold 14px/1.5 Helvetica, Verdana, sans-serif;
+    list-style-type: none;
+    text-align: center;
+}
+
+.ullevel0>li>a {
+    margin: 2px;
+    padding: 4px;
+    border: 1px solid rgb(82, 124, 128);
+    border-radius: 5px;
+    background-color: rgb(143, 204, 209);
 }
 
 .ullevel1 {
-    margin: 5px 5px 5px 25px;
+    margin: 15px 5px 5px;
     font: bold 13px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.ullevel1>li {
+    list-style-type: none;
+    text-align: left;
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 0 10px;
 }
 
 #zone3-container {
@@ -209,9 +249,9 @@ li a {
     background-color: #f5e9cc;
     border: 2px solid #f6b73c;
     border-radius: 10px;
-    margin: 40px 5px;
-    margin-left: 10%;
     max-width: 600px;
+    min-width: 600px;
+    margin: 50px 30%;
 }
 
 #error-container>img {

@@ -147,12 +147,12 @@ function oGetProvincias($sFiltro = null, $sCodCA = null)
 		ON p.sCodCA=c.sCod
 		';
 	$bFiltro = !is_null($sFiltro) && !empty($sFiltro);
-	$bCodCA = !is_null($sCodCA) && !empty($sFiltro) && is_numeric($sFiltro);
+	$bCodCA = !is_null($sCodCA) && !empty($sCodCA) && is_numeric($sCodCA);
 	if ($bFiltro && $bCodCA) {
 		$sSQL .= 'WHERE c.sCod=' . $sCodCA . ' AND p.sNombre LIKE "' . $sFiltro . '%" ';
-	} elseif ($bFiltro) {
+	} else if ($bFiltro) {
 		$sSQL .= 'WHERE p.sNombre LIKE "' . $sFiltro . '%" ';
-	} elseif ($bCodCA) {
+	} else if ($bCodCA) {
 		$sSQL .= 'WHERE c.sCod=' . $sCodCA . ' ';
 	}
 	$sSQL .= 'ORDER BY p.sNombre ASC';
