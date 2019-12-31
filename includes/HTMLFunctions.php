@@ -1,5 +1,5 @@
 <?php
-function siteMap2UnorderedList($siteMap, $currentSelectorPath, $recursiveLevel = 0, $prefixHRef = '')
+function siteMap2UnorderedList($siteMap, $collapse, $currentSelectorPath, $recursiveLevel = 0, $prefixHRef = '')
 {
     global $siteMap_IdNames;
 
@@ -8,7 +8,7 @@ function siteMap2UnorderedList($siteMap, $currentSelectorPath, $recursiveLevel =
     $idName = $siteMap_IdNames[$recursiveLevel];
     $sS = '<ul class=ullevel' . $recursiveLevel . '>';
     foreach ($siteMap as $id => $dataarray) {
-        $selected = false;
+        $selected = (array_key_exists($recursiveLevel, $currentSelectorPath) && $id == $currentSelectorPath[$recursiveLevel]);
         $sS .= '<li>';
         $name = $dataarray['Name'];
 
@@ -16,16 +16,15 @@ function siteMap2UnorderedList($siteMap, $currentSelectorPath, $recursiveLevel =
         if (!empty($idName)) {
             $hrefItem .= $hrefOperator . $idName . '=' . $id;
             $styleClass = '';
-            if (array_key_exists($recursiveLevel, $currentSelectorPath) and $id == $currentSelectorPath[$recursiveLevel]) {
-                $selected = true;
+            if ($selected) {
                 $styleClass = 'class=selected';
             }
             $sS .= '<a ' . $styleClass . ' href="' . $hrefItem . '">' . $name . '</a>';
         } else {
             $sS .= $name;
         }
-        if (array_key_exists('Children', $dataarray) and !empty($dataarray['Children'])) {
-            $sS .= siteMap2UnorderedList($dataarray['Children'], ($selected) ? $currentSelectorPath : array(), $recursiveLevel + 1, $hrefItem);
+        if (($selected || !$collapse) && array_key_exists('Children', $dataarray) && !empty($dataarray['Children'])) {
+            $sS .= siteMap2UnorderedList($dataarray['Children'], $collapse, ($selected) ? $currentSelectorPath : array(), $recursiveLevel + 1, $hrefItem);
         }
         $sS .= '</li>';
     }

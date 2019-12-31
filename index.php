@@ -109,7 +109,7 @@ $hasChildren = (array_key_exists('Children', $current_siteMap) and !empty($curre
 						} else {
 							$selectorPath = [$idSection];
 						}
-						echo SiteMap2UnorderedList($siteMap, $selectorPath);
+						echo SiteMap2UnorderedList($siteMap, true, $selectorPath);
 						?>
 					</div>
 				</div>
