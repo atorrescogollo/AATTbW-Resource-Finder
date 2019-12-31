@@ -554,7 +554,7 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 			ON r.sCodCD=cd.sCod
 	';
 
-	$bCod = !is_null($sCod) && is_numeric($sCod);
+	$bCod = !is_null($sCod);
 	if ($bCod) {
 		$sSQL .= " WHERE cd.sCod='" . $sCod . "' ";
 	} else {

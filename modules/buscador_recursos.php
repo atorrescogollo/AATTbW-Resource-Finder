@@ -7,6 +7,9 @@ if ($resetfilters || !isset($_SESSION['filter']['Cat'])) {
 if ($resetfilters || !isset($_SESSION['filter']['KW'])) {
     $_SESSION['filter']['KW'] = array();
 }
+if ($resetfilters || (isset($_GET['remCD']) && $_GET['remCD']) || !isset($_SESSION['filter']['CD'])) {
+    $_SESSION['filter']['CD'] = null;
+}
 
 // Get flags and update filters
 $flags = ['addCat', 'addKW', 'remCat', 'remKW'];
@@ -28,6 +31,12 @@ foreach ($flags as $flag) {
         }
     }
 }
+
+// Get select resource
+if (isset($_GET['codCD'])) {
+    $_SESSION['filter']['CD'] = $_GET['codCD'];
+}
+
 
 $href = "index.php?IdSection=" . $idSection . "&IdOperation=" . $idOperation;
 $oMysqli = oAbrirBaseDeDatos();
@@ -73,7 +82,7 @@ $oMysqli = oAbrirBaseDeDatos();
         <div id=data-template class=centerpanel>
             <h5 class=step-container-title>Filtros Activos
                 <?php
-                if (count($_SESSION['filter']['Cat']) > 0 || count($_SESSION['filter']['KW']) > 0)
+                if (count($_SESSION['filter']['Cat']) > 0 || count($_SESSION['filter']['KW']) > 0 || !is_null($_SESSION['filter']['CD']))
                     echo '<a href="' . $href . '&reset_filters=true"><img src="images/delete-icon.png" style="height: 12px;margin-left:25px"/></a>';
                 ?>
             </h5>
@@ -99,41 +108,82 @@ $oMysqli = oAbrirBaseDeDatos();
                             ?>
                         </td>
                     </tr>
-                </table>
-            </div>
-            <div id=flexdatabox-container class=step-container>
-                <ul class=flexdataboxes>
                     <?php
-                    $oRS = oGetConjuntosDatos($_SESSION['filter']['Cat'], $_SESSION['filter']['KW']);
-                    while ($row = $oRS->fetch_assoc()) {
-                        $nombreCD = $row['Nombre'];
-                        $descripcion = $row['Descripcion'];
-                        $cat = str_replace(';', ', ', $row['Categorias']);
-                        $kw = str_replace(';', ', ', $row['PalabrasClave']);
-                        $numRecursos = str_replace(';', ', ', $row['NumRecursos']);
-
-                        echo '<li class=flexdatabox-item>';
-                        echo '<h4><img src="images/item.png" height=10px/>' . $nombreCD . '</h4>';
-                        echo '<p style="font-size: 12px;">' . $descripcion . '</p>';
-                        echo '<table>';
+                    if (!is_null($_SESSION['filter']['CD'])) {
                         echo '<tr>';
-                        echo '<td>Categorias:</td>';
-                        echo '<td>' . $cat . '</td>';
+                        echo '  <td>Conjunto de Datos:</td>';
+                        echo '  <td>';
+                        $codCD = $_SESSION['filter']['CD'];
+                        echo '    <span class=filterselectedbox><a href="' . $href . '&remCD=true"><img src="images/delete-icon.png" style="height: 12px;"/></a>' . $_SESSION['cache']['CD'][$codCD]['name'] . '</span>';
+                        echo '  </td>';
                         echo '</tr>';
-                        echo '<tr>';
-                        echo '<td>Palabras Clave:</td>';
-                        echo '<td>' . $kw . '</td>';
-                        echo '</tr>';
-                        echo '<tr>';
-                        echo '<td>Numero de recursos:</td>';
-                        echo '<td>' . $numRecursos . '</td>';
-                        echo '</tr>';
-                        echo '</table>';
-                        echo '</li>';
                     }
                     ?>
-                </ul>
+                </table>
             </div>
+            <?php
+            $oRS = oGetConjuntosDatos($_SESSION['filter']['Cat'], $_SESSION['filter']['KW'], $_SESSION['filter']['CD']);
+            $count = $oRS->num_rows;
+            if ($count != 1) {
+                echo '<div id=flexdatabox-container class=step-container>';
+            } else {
+                echo '<div class=step-container>';
+            }
+
+            echo '<ul class=flexdataboxes>';
+            while ($row = $oRS->fetch_assoc()) {
+                $codigoCD = $row['Codigo'];
+                $nombreCD = $row['Nombre'];
+                $descripcion = $row['Descripcion'];
+                $cat = str_replace(';', ', ', $row['Categorias']);
+                $kw = str_replace(';', ', ', $row['PalabrasClave']);
+                $numRecursos = str_replace(';', ', ', $row['NumRecursos']);
+
+                $_SESSION['cache']['CD'][$codigoCD]['name'] = $nombreCD;
+
+                echo '<li class=flexdatabox-item>';
+                echo '<a class=flexdatabox-item-link href="' . $href . '&codCD=' . $codigoCD . '">';
+                echo '<h4><img src="images/item.png" height=10px/>' . $nombreCD . '</h4>';
+                echo '<p style="font-size: 12px;margin: 0px 5px; margin-top: 10px">' . $descripcion . '</p>';
+                echo '<table>';
+                echo '<tr>';
+                echo '<td>Categorias:</td>';
+                echo '<td>' . $cat . '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td>Palabras Clave:</td>';
+                echo '<td>' . $kw . '</td>';
+                echo '</tr>';
+                echo '<tr>';
+                echo '<td>Numero de recursos:</td>';
+                echo '<td>' . $numRecursos . '</td>';
+                echo '</tr>';
+                echo '</table>';
+                echo '</a>';
+                echo '</li>';
+            }
+            echo '</ul>';
+            echo '</div>';
+
+            if (!is_null($_SESSION['filter']['CD'])) {
+                echo '<div class=step-container style="max-height: 220px; overflow: auto">';
+                echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
+                echo '<ul id=resources-list>';
+                $oRS = oGetRecursos($codigoCD);
+                while ($row = $oRS->fetch_assoc()) {
+                    $codigoR = $row['Codigo'];
+                    $nombreR = $row['Nombre'];
+                    $nombreProvincias = $row['Provincias'];
+                    echo '<li>';
+                    echo $nombreR;
+                    echo '<span>('.$nombreProvincias.')</span>';
+                    echo '<img style="height: 13px; margin: 0 6px" src="images/location.png" />';
+                    echo '</li>';
+                }
+                echo '</ul>';
+                echo '</div>';
+            }
+            ?>
         </div>
     </div>
 </div>
