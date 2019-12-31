@@ -41,7 +41,7 @@ if (!empty($filter)) {
         foreach ($aInfo[T_DATOS][T_DATOS_INFO] as $cod => $array_info) {
             $name = $array_info[$k_Name];
             $resources = $aInfo[T_DETALLE][$cod][T_DETALLE_RASGOS]["NumRecursos"];
-            echo "<li>" . $name . " <a>(Recursos: " . $resources . ")</a></li>";
+            echo "<li>" . $name . " <span>(Recursos: " . $resources . ")</span></li>";
         }
         echo "</ul>";
 

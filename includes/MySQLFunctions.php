@@ -40,7 +40,7 @@ function oGetCCAA($sFiltro = null)
 
 	/* parte de la sentencia específica para el estado (b) */
 	if (!is_null($sFiltro) && !empty($sFiltro)) {
-		$sSQL .= ' WHERE sNombre LIKE "' . $sFiltro . '%"';
+		$sSQL .= ' WHERE sNombre LIKE "%' . $sFiltro . '%"';
 	}
 
 	/* parte de la sentencia común a los dos estados */

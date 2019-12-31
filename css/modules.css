@@ -42,14 +42,27 @@
     padding: 15px 35px;
 }
 
-#step2 {
-    max-height: 180px;
-    overflow: scroll;
-}
-
 #step2>ul {
     margin-left: 5%;
     font: 16px/1.5 Helvetica, Verdana, sans-serif;
+    max-height: 180px;
+    overflow: auto;
+}
+
+#step2>ul>li {
+    list-style: none;
+    margin: 5px 2px;
+    border-left: 1px solid rgb(82, 124, 128);
+    padding: 4px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(64, 96, 98);
+}
+
+#step2>ul>li>span {
+    margin: 0 7px;
+    font-weight: lighter;
+    font-size: 13px;
 }
 
 #map {
