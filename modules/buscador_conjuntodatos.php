@@ -166,22 +166,25 @@ $oMysqli = oAbrirBaseDeDatos();
             echo '</div>';
 
             if (!is_null($_SESSION['filter']['CD'])) {
-                echo '<div class=step-container style="max-height: 220px; overflow: auto">';
-                echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
-                echo '<ul id=resources-list>';
-                $oRS = oGetRecursos($codigoCD);
-                while ($row = $oRS->fetch_assoc()) {
-                    $codigoR = $row['Codigo'];
-                    $nombreR = $row['Nombre'];
-                    $nombreProvincias = $row['Provincias'];
-                    echo '<li>';
-                    echo $nombreR;
-                    echo '<span>('.$nombreProvincias.')</span>';
-                    echo '<img style="height: 13px; margin: 0 6px" src="images/location.png" />';
-                    echo '</li>';
+                $siteMapPath[] = 'detail';
+                if (authorizedByRoles($rolesUser, $siteMapPath)) {
+                    echo '<div class=step-container style="max-height: 220px; overflow: auto">';
+                    echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
+                    echo '<ul id=resources-list>';
+                    $oRS = oGetRecursos($codigoCD);
+                    while ($row = $oRS->fetch_assoc()) {
+                        $codigoR = $row['Codigo'];
+                        $nombreR = $row['Nombre'];
+                        $nombreProvincias = $row['Provincias'];
+                        echo '<li>';
+                        echo $nombreR;
+                        echo '<span>(' . $nombreProvincias . ')</span>';
+                        echo '<img style="height: 13px; margin: 0 6px" src="images/location.png" />';
+                        echo '</li>';
+                    }
+                    echo '</ul>';
+                    echo '</div>';
                 }
-                echo '</ul>';
-                echo '</div>';
             }
             ?>
         </div>
