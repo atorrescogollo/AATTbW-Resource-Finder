@@ -12,3 +12,13 @@ function validateLogin() {
         return false;
     }
 }
+
+function popupdetail(url) {
+    var w = 700;
+    var h = 600;
+    var centerLeft = (screen.width / 2) - (w / 2);
+    var centerTop = (screen.height / 2) - (h / 2);
+
+    var windowFeatures = 'width=' + w + ', height=' + h + ', top=' + centerTop + ', left=' + centerLeft;
+    return window.open(url, 'Vista Detalle', windowFeatures);
+}

@@ -168,9 +168,18 @@ $oMysqli = oAbrirBaseDeDatos();
             if (!is_null($_SESSION['filter']['CD'])) {
                 $siteMapPath[] = 'detail';
                 if (authorizedByRoles($rolesUser, $siteMapPath)) {
+                    $siteMapPath[] = 'externallink';
+                    $showexternallink = authorizedByRoles($rolesUser, $siteMapPath);
+
+                    if(is_null($externallinkhost)){
+                        $protocol=(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+                        $externallinkhost=$protocol."://$_SERVER[HTTP_HOST]";
+                    }
+
                     echo '<div class=step-container style="max-height: 220px; overflow: auto">';
                     echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
                     echo '<ul id=resources-list>';
+
                     $oRS = oGetRecursos($codigoCD);
                     while ($row = $oRS->fetch_assoc()) {
                         $codigoR = $row['Codigo'];
@@ -179,7 +188,9 @@ $oMysqli = oAbrirBaseDeDatos();
                         echo '<li>';
                         echo $nombreR;
                         echo '<span>(' . $nombreProvincias . ')</span>';
-                        echo '<img style="height: 13px; margin: 0 6px" src="images/location.png" />';
+                        if ($showexternallink){
+                            echo '<a href="javascript:popupdetail(\''.$externallinkhost.$externallinkpath.'?type=RE&code='.$codigoR.'\')"><img style="height: 13px; margin: 0 6px" src="images/location.png" /></a>';
+                        }
                         echo '</li>';
                     }
                     echo '</ul>';

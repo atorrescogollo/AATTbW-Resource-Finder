@@ -94,28 +94,34 @@ User role is allowed if:
 
 $roles = array(
   "All" => [
-    0 => true,
-    1 => true,
-    2 => true,
-    3 => [
       0 => true,
       1 => true,
-      2 => [
-      'detail' => false
-      ],
-      3 => true
-    ]
+      2 => true,
+      3 => [
+          0 => true,
+          1 => true,
+          2 => [
+              'detail' => [
+                  'externallink' => false
+              ]
+          ],
+          3 => true
+      ]
   ],
   "Owner" => true, // All to see everything
   "Authenticated" => [ // Allowed to see first and last sections
-    0 => true,
-    1 => [],
-    2 => [],
-    3 => [
       0 => true,
-      1 => false,
-      2 => true,
-      3 => false
-    ]
+      1 => [],
+      2 => [],
+      3 => [
+          0 => true,
+          1 => false,
+          2 => true,
+          3 => false
+      ]
   ]
 );
+
+
+$externallinkhost=null; // Same host
+$externallinkpath=dirname($_SERVER['REQUEST_URI'])."/detail.php";
