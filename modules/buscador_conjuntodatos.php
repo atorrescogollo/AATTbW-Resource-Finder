@@ -56,7 +56,7 @@ $oMysqli = oAbrirBaseDeDatos();
                             $nombreCategoria = $row['Nombre'];
                             $numCD = $row["NumCD"];
                             $_SESSION['cache']['Cat'][$codeCategoria]['name'] = $nombreCategoria;
-                            echo '<li><a href="' . $href . '&addCat=' . $codeCategoria . '">' . $nombreCategoria . ' <span>' . $numCD . '</span></a></li>';
+                            echo '<li><a title="Filtrar por \'Categorías\'::' . $nombreCategoria . '" href="' . $href . '&addCat=' . $codeCategoria . '">' . $nombreCategoria . ' <span>' . $numCD . '</span></a></li>';
                         }
                         ?>
                     </ul>
@@ -72,7 +72,7 @@ $oMysqli = oAbrirBaseDeDatos();
                             $numCD = $row["NumCD"];
 
                             $_SESSION['cache']['KW'][$codeKW]['name'] = $nombreKW;
-                            echo '<li><a href="' . $href . '&addKW=' . $codeKW . '">' . $nombreKW . ' <span>' . $numCD . '<span></a></li>';
+                            echo '<li><a title="Filtrar por \'Palabras Clave\'::' . $nombreKW . '" href="' . $href . '&addKW=' . $codeKW . '">' . $nombreKW . ' <span>' . $numCD . '<span></a></li>';
                         }
                         ?>
                     </ul>
@@ -167,35 +167,32 @@ $oMysqli = oAbrirBaseDeDatos();
 
             if (!is_null($_SESSION['filter']['CD'])) {
                 $siteMapPath[] = 'detail';
-                if (authorizedByRoles($rolesUser, $siteMapPath)) {
-                    $siteMapPath[] = 'externallink';
-                    $showexternallink = authorizedByRoles($rolesUser, $siteMapPath);
+                $showexternallink = authorizedByRoles($rolesUser, $siteMapPath);
 
-                    if(is_null($externallinkhost)){
-                        $protocol=(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-                        $externallinkhost=$protocol."://$_SERVER[HTTP_HOST]";
-                    }
-
-                    echo '<div class=step-container style="max-height: 220px; overflow: auto">';
-                    echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
-                    echo '<ul id=resources-list>';
-
-                    $oRS = oGetRecursos($codigoCD);
-                    while ($row = $oRS->fetch_assoc()) {
-                        $codigoR = $row['Codigo'];
-                        $nombreR = $row['Nombre'];
-                        $nombreProvincias = $row['Provincias'];
-                        echo '<li>';
-                        echo $nombreR;
-                        echo '<span>(' . $nombreProvincias . ')</span>';
-                        if ($showexternallink){
-                            echo '<a href="javascript:popupdetail(\''.$externallinkhost.$externallinkpath.'?type=RE&code='.$codigoR.'\')"><img style="height: 13px; margin: 0 6px" src="images/location.png" /></a>';
-                        }
-                        echo '</li>';
-                    }
-                    echo '</ul>';
-                    echo '</div>';
+                if (is_null($externallinkhost)) {
+                    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+                    $externallinkhost = $protocol . "://$_SERVER[HTTP_HOST]";
                 }
+
+                echo '<div class=step-container style="max-height: 220px; overflow: auto">';
+                echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
+                echo '<ul id=resources-list>';
+
+                $oRS = oGetRecursos($codigoCD);
+                while ($row = $oRS->fetch_assoc()) {
+                    $codigoR = $row['Codigo'];
+                    $nombreR = $row['Nombre'];
+                    $nombreProvincias = $row['Provincias'];
+                    echo '<li>';
+                    echo $nombreR;
+                    echo '<span>(' . $nombreProvincias . ')</span>';
+                    if ($showexternallink) {
+                        echo '<a href="javascript:popupdetail(\'' . $externallinkhost . $externallinkpath . '?type=RE&code=' . $codigoR . '\')"><img style="height: 13px; margin: 0 6px" src="images/location.png" /></a>';
+                    }
+                    echo '</li>';
+                }
+                echo '</ul>';
+                echo '</div>';
             }
             ?>
         </div>

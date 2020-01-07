@@ -101,9 +101,7 @@ $roles = array(
           0 => true,
           1 => true,
           2 => [
-              'detail' => [
-                  'externallink' => false
-              ]
+              'detail' => false
           ],
           3 => true
       ]

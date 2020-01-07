@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "includes/HTMLFunctions.php";
 require_once "includes/MySQLFunctions.php";
 require_once "includes/TableFunctions.php";
@@ -7,12 +8,15 @@ require_once "includes/LoginFunctions.php";
 require_once "includes/DefaultSettings.php";
 include_once "LocalSettings.php";
 
+
+$authorized = authorizedByRoles($_SESSION['Userdata']['Roles'], [3, 2, 'detail']);
+
 $infofunctions['CA'] = "oGetInfoCA";
 $infofunctions['PR'] = "oGetInfoProvincia";
 $infofunctions['RE'] = "oGetInfoRecurso";
 
-$oRS=null;
-if (isset($_GET['type'])) {
+$oRS = null;
+if ($authorized && isset($_GET['type'])) {
 	$sTipo = $_GET['type'];
 	if (array_key_exists($sTipo, $infofunctions)) {
 		$userfunction = $infofunctions[$sTipo];
@@ -20,7 +24,7 @@ if (isset($_GET['type'])) {
 			$code = $_GET['code'];
 
 			$oMysqli = oAbrirBaseDeDatos();
-			$oRS = call_user_func($userfunction,$code);
+			$oRS = call_user_func($userfunction, $code);
 		}
 	}
 }
@@ -33,8 +37,9 @@ if (isset($_GET['type'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Visualización de resultados de búsqueda</title>
 	<link rel="shortcut icon" type="image/png" href="images/logo.png" />
-	<link href="css/detail.css" rel="stylesheet" type="text/css" />
+	<link href="css/aattbw.css" rel="stylesheet" type="text/css" />
 	<link href="css/aattbw_ArcGIS.css" rel="stylesheet" type="text/css" />
+	<link href="css/detail.css" rel="stylesheet" type="text/css" />
 
 	<link rel="stylesheet" href="https://js.arcgis.com/3.26/esri/css/esri.css">
 	<!-- ArcGIS API for JavaScript library references -->
@@ -52,8 +57,13 @@ if (isset($_GET['type'])) {
 	<div id="bodycontent">
 		<div id="data">
 			<?php
-			
-			if (!is_null($oRS)) {
+			if (!$authorized) {
+				echo '<div id="error-container">';
+				echo ErrorHTML("Permiso denegado", "Solicite permisos para visualizar este apartado.");
+				echo '</div>';
+			} else if (is_null($oRS)) {
+				echo sPintarError();
+			} else {
 				if ($oRS->num_rows > 0) {
 					$bData = true;
 					$aInfo = aGetTable($oRS, $sTipo);
@@ -71,8 +81,6 @@ if (isset($_GET['type'])) {
 					';
 				}
 				$oRS->free();
-			} else {
-				echo sPintarError();
 			}
 
 			cerrarBaseDeDatos($oMysqli);
