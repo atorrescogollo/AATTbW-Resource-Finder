@@ -168,14 +168,14 @@ $oMysqli = oAbrirBaseDeDatos();
             if (!is_null($_SESSION['filter']['CD'])) {
                 $siteMapPath[] = 'detail';
                 $showexternallink = authorizedByRoles($rolesUser, $siteMapPath);
-
-                if (is_null($externallinkhost)) {
-                    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-                    $externallinkhost = $protocol . "://$_SERVER[HTTP_HOST]";
-                }
+                $showexternallink = ($showexternallink && $numRecursos>0);
 
                 echo '<div class=step-container style="max-height: 220px; overflow: auto">';
-                echo '<h5 class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
+
+                echo '<h5 style="display: inline; padding: 0 10px 0 30px" class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
+                if ($showexternallink) {
+                    echo '<a href="javascript:popupdetail(\'' . $externallinkhost . $externallinkpath . '?type=REs&code=' . $_SESSION['filter']['CD'] . '\')"><img style="height: 15px; margin: 0 6px" src="images/location.png" /></a>';
+                }
                 echo '<ul id=resources-list>';
 
                 $oRS = oGetRecursos($codigoCD);

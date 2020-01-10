@@ -31,6 +31,7 @@ function sGetGeoJson($aFeatures)
 			"properties": {	';
 
         $sSFeatures .= ' "Nombre": "' . $data[T_DETALLE_NOMBRE] . '"';
+        //$sSFeatures .= ', "Detalle": "<a href=\"detail.php\">Ver en mapa</a>"';
         foreach ($data[T_DETALLE_RASGOS] as $rasgo => $valor) {
             $sSFeatures .= ', "' . $rasgo . '": "' . $valor . '"';
         }

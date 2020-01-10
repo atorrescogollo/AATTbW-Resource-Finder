@@ -123,3 +123,8 @@ $roles = array(
 
 $externallinkhost=null; // Same host
 $externallinkpath=dirname($_SERVER['REQUEST_URI'])."/detail.php";
+
+if (is_null($externallinkhost)) {
+  $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+  $externallinkhost = $protocol . "://$_SERVER[HTTP_HOST]";
+}

@@ -14,12 +14,14 @@ $authorized = authorizedByRoles($_SESSION['Userdata']['Roles'], [3, 2, 'detail']
 $infofunctions['CA'] = "oGetInfoCA";
 $infofunctions['PR'] = "oGetInfoProvincia";
 $infofunctions['RE'] = "oGetInfoRecurso";
+$infofunctions['REs'] = "oGetRecursos";
 
 $oRS = null;
 if ($authorized && isset($_GET['type'])) {
 	$sTipo = $_GET['type'];
 	if (array_key_exists($sTipo, $infofunctions)) {
 		$userfunction = $infofunctions[$sTipo];
+		$sTipo=rtrim($sTipo,'s'); // Remove last 's'
 		if (isset($_GET['code']) && preg_match('/^[a-zA-Z\d]+$/', $_GET['code'])) {
 			$code = $_GET['code'];
 
@@ -68,7 +70,7 @@ if ($authorized && isset($_GET['type'])) {
 					$bData = true;
 					$aInfo = aGetTable($oRS, $sTipo);
 
-					file_put_contents('js/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
+					file_put_contents($workingdir.'/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
 					if (count($aInfo[T_DATOS][T_DATOS_INFO]) > 1) {
 						echo sPintarDatos($aInfo[T_DATOS], true);
 					} else {
