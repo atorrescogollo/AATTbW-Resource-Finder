@@ -174,7 +174,7 @@ $oMysqli = oAbrirBaseDeDatos();
 
                 echo '<h5 style="display: inline; padding: 0 10px 0 30px" class=step-container-title>Listado de recursos (' . $numRecursos . ')</h5>';
                 if ($showexternallink) {
-                    echo '<a href="javascript:popupdetail(\'' . $externallinkhost . $externallinkpath . '?type=REs&code=' . $_SESSION['filter']['CD'] . '\')"><img style="height: 15px; margin: 0 6px" src="images/location.png" /></a>';
+                    echo '<a href="javascript:popupdetail(\'' . $externallinkhost . $externallinkpath . '?type=REs&codCD=' . $_SESSION['filter']['CD'] . '\')"><img style="height: 15px; margin: 0 6px" src="images/location.png" /></a>';
                 }
                 echo '<ul id=resources-list>';
 

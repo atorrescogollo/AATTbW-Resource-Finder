@@ -11,23 +11,45 @@ include_once "LocalSettings.php";
 
 $authorized = authorizedByRoles($_SESSION['Userdata']['Roles'], [3, 2, 'detail']);
 
-$infofunctions['CA'] = "oGetInfoCA";
-$infofunctions['PR'] = "oGetInfoProvincia";
-$infofunctions['RE'] = "oGetInfoRecurso";
-$infofunctions['REs'] = "oGetRecursos";
+$infofunctions['CA'] = [
+	'rtype' => 'CA',
+	'function' => "oGetInfoCA",
+	'parameters' => ['code']
+];
+$infofunctions['PR'] = [
+	'rtype' => 'PR',
+	'function' => "oGetInfoProvincia",
+	'parameters' => ['code']
+];
+$infofunctions['RE'] = [
+	'rtype' => 'RE',
+	'function' => "oGetInfoRecurso",
+	'parameters' => ['code']
+];
+$infofunctions['REs'] = [
+	'rtype' => 'RE',
+	'function' => "oGetRecursos",
+	'parameters' => ['codCD', null, 'codPR', 'codCA']
+];
 
+$oMysqli = oAbrirBaseDeDatos();
 $oRS = null;
 if ($authorized && isset($_GET['type'])) {
 	$sTipo = $_GET['type'];
 	if (array_key_exists($sTipo, $infofunctions)) {
-		$userfunction = $infofunctions[$sTipo];
-		$sTipo=rtrim($sTipo,'s'); // Remove last 's'
-		if (isset($_GET['code']) && preg_match('/^[a-zA-Z\d]+$/', $_GET['code'])) {
-			$code = $_GET['code'];
+		$userfunction = $infofunctions[$sTipo]['function'];
+		$userfunctionparams = $infofunctions[$sTipo]['parameters'];
+		$sTipo = $infofunctions[$sTipo]['rtype'];
 
-			$oMysqli = oAbrirBaseDeDatos();
-			$oRS = call_user_func($userfunction, $code);
+		$loadedparams = [];
+		foreach ($userfunctionparams as $p) {
+			if (!is_null($p) && isset($_GET[$p]) && preg_match('/^[a-zA-Z\d]+$/', $_GET[$p])) {
+				$loadedparams[] = $_GET[$p];
+			} else {
+				$loadedparams[] = null;
+			}
 		}
+		$oRS = call_user_func_array($userfunction, $loadedparams);
 	}
 }
 ?>
@@ -70,7 +92,7 @@ if ($authorized && isset($_GET['type'])) {
 					$bData = true;
 					$aInfo = aGetTable($oRS, $sTipo);
 
-					file_put_contents($workingdir.'/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
+					file_put_contents($workingdir . '/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
 					if (count($aInfo[T_DATOS][T_DATOS_INFO]) > 1) {
 						echo sPintarDatos($aInfo[T_DATOS], true);
 					} else {
@@ -81,6 +103,8 @@ if ($authorized && isset($_GET['type'])) {
 					<div id="mapArcGIS"></div>
 					<script src="js/apiArcGIS.js" type="text/javascript"></script>	
 					';
+				} else {
+					echo sPintarDatos($aInfo[T_DETALLE], false);
 				}
 				$oRS->free();
 			}
@@ -113,48 +137,51 @@ function sPintarDatos($aInfo, $bEsTDATA = true)
 {
 
 	$registros = count(($bEsTDATA) ? $aInfo[T_DATOS_INFO] : $aInfo);
-	$endingmsg = ($registros > 1) ? 'registros encontrados' : 'registro encontrado';
+	$endingmsg = ($registros != 1) ? 'registros encontrados' : 'registro encontrado';
 	$sS = '<div id=inforegistros><p>' . $registros . ' ' . $endingmsg . '</p></div>';
-	$sS .= '
+
+	if ($registros > 0) {
+		$sS .= '
 	<div id=parrilladiv>
 	  <table class="parrilla">';
 
-	if ($bEsTDATA) {
-		$sS .= '<tr>';
-		foreach ($aInfo[T_DATOS_CAMPOS] as $campo) {
-			$sS .= '<th>' . $campo . '</th>';
-		}
-		$sS .= '</tr>';
-		foreach ($aInfo[T_DATOS_INFO] as $cod => $data) {
+		if ($bEsTDATA) {
 			$sS .= '<tr>';
-			$i = 0;
-			foreach ($data as $d) {
-				if ($i == 0)
-					$sS .= '<td class=fixedwidth>' . $d . '</td>';
-				else
-					$sS .= '<td>' . $d . '</td>';
-
-				$i++;
+			foreach ($aInfo[T_DATOS_CAMPOS] as $campo) {
+				$sS .= '<th>' . $campo . '</th>';
 			}
 			$sS .= '</tr>';
-		}
-	} else {
+			foreach ($aInfo[T_DATOS_INFO] as $cod => $data) {
+				$sS .= '<tr>';
+				$i = 0;
+				foreach ($data as $d) {
+					if ($i == 0)
+						$sS .= '<td class=fixedwidth>' . $d . '</td>';
+					else
+						$sS .= '<td>' . $d . '</td>';
 
-		$sS .= '<tr>';
-		$sS .= '<p class=th>' . reset($aInfo)[T_DETALLE_NOMBRE] . '</p>';
-		$sS .= '</tr>';
+					$i++;
+				}
+				$sS .= '</tr>';
+			}
+		} else {
 
-		foreach (reset($aInfo)[T_DETALLE_RASGOS] as $rasgo => $val) {
 			$sS .= '<tr>';
-			$sS .= '<td class="fixedwidth tablaresaltada">' . $rasgo . '</td>';
-			$sS .= '<td>' . $val . '</td>';
+			$sS .= '<p class=th>' . reset($aInfo)[T_DETALLE_NOMBRE] . '</p>';
 			$sS .= '</tr>';
-		}
-	}
 
-	$sS .= '
+			foreach (reset($aInfo)[T_DETALLE_RASGOS] as $rasgo => $val) {
+				$sS .= '<tr>';
+				$sS .= '<td class="fixedwidth tablaresaltada">' . $rasgo . '</td>';
+				$sS .= '<td>' . $val . '</td>';
+				$sS .= '</tr>';
+			}
+		}
+
+		$sS .= '
 	  </table>
 	</div>';
+	}
 	return $sS;
 }
 

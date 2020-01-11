@@ -42,7 +42,6 @@ if (!empty($codCA)) {
     $oRS = oGetProvincias(null, $codCA);
     $sTipo = 'PR';
     $aInfo = aGetTable($oRS, $sTipo);
-    cerrarBaseDeDatos($oMysqli);
 
     if (count($aInfo) > 0) {
 
@@ -58,7 +57,7 @@ if (!empty($codCA)) {
         echo "</ul>";
 
         // For map displaying through GET
-        file_put_contents($workingdir . '/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
+        file_put_contents($workingdir . '/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE], 'codPR', 'REs'));
 
         echo '</div>';
 
@@ -72,5 +71,7 @@ if (!empty($codCA)) {
     } else {
         echo NotificationHTMLCondensed("No se encontraron resultados");
     }
+
+    cerrarBaseDeDatos($oMysqli);
 }
 ?>

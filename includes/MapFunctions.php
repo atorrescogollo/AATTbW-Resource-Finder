@@ -13,7 +13,7 @@
  * 		- cadena de caracteres con la serialización de los Registros del array a formato GeoJSON
  *			Consultar http://geojson.org/
  * *****************************************************************************************/
-function sGetGeoJson($aFeatures)
+function sGetGeoJson($aFeatures, $codename = null, $detailtype = null)
 {
     $sS = '
 	{
@@ -31,7 +31,12 @@ function sGetGeoJson($aFeatures)
 			"properties": {	';
 
         $sSFeatures .= ' "Nombre": "' . $data[T_DETALLE_NOMBRE] . '"';
-        //$sSFeatures .= ', "Detalle": "<a href=\"detail.php\">Ver en mapa</a>"';
+        if (!is_null($codename) && !is_null($detailtype)) {
+
+            $detailhrefargs = '?type=' . $detailtype . '&' . $codename . '=' . $cod;
+
+            $sSFeatures .= ', "Detalle": "<a href=\"detail.php' . $detailhrefargs . '\">Ver en mapa</a>"';
+        }
         foreach ($data[T_DETALLE_RASGOS] as $rasgo => $valor) {
             $sSFeatures .= ', "' . $rasgo . '": "' . $valor . '"';
         }

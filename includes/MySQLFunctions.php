@@ -558,7 +558,7 @@ function oGetConjuntosDatos($aCodCat = null, $aCodPC = null, $sCod = null)
 	if ($bCod) {
 		$sSQL .= " WHERE cd.sCod='" . $sCod . "' ";
 	} else {
-		$aux=array();
+		$aux = array();
 		$bCodCat = !is_null($aCodCat) && is_array($aCodCat) && count($aCodCat) > 0;
 		if ($bCodCat) {
 			$aux['Cat'] = '
@@ -761,18 +761,28 @@ function oGetRasgosRecurso($sCod)
  *			that the interior of the first geometry intersects with the boundary of the second.
  **/
 
-function oGetRecursos($sCodCD = null, $sFiltro = null)
+function oGetRecursos($sCodCD = null, $sFiltro = null, $sCodPR = null, $sCodCA = null)
 {
 	$sSQL = null;
 	$sSQLWhereClause = '';
 	$bCodCD = !is_null($sCodCD);
 	$bFiltro = !is_null($sFiltro);
+	$bCodPR = !is_null($sCodPR);
+	$bCodCA = !is_null($sCodCA);
 	if ($bCodCD) {
 		$sSQLWhereClause .= ' WHERE r.sCodCD=\'' . $sCodCD . '\' ';
 	}
 	if ($bFiltro) {
 		$sSQLWhereClause .= (empty($sSQLWhereClause)) ? ' WHERE ' : ' AND ';
 		$sSQLWhereClause .= 'r.sNombre LIKE \'%' . $sFiltro . '%\' ';
+	}
+	if ($bCodPR) {
+		$sSQLWhereClause .= (empty($sSQLWhereClause)) ? ' WHERE ' : ' AND ';
+		$sSQLWhereClause .= 'p.sCod=\'' . $sCodPR . '\' ';
+	}
+	if ($bCodCA) {
+		$sSQLWhereClause .= (empty($sSQLWhereClause)) ? ' WHERE ' : ' AND ';
+		$sSQLWhereClause .= 'p.sCodCA=\'' . $sCodCA . '\' ';
 	}
 
 	if (!empty($sSQLWhereClause)) {
@@ -792,7 +802,7 @@ function oGetRecursos($sCodCD = null, $sFiltro = null)
 					ON p.sCod=rp.sCodProvincia
 				INNER JOIN Recurso_Rasgo as rr
 					ON rr.sCodRecurso=r.sCod 
-				' . $sSQLWhereClause . '
+				'. $sSQLWhereClause . '
 				GROUP BY r.sCod
 				ORDER BY r.sNombre ASC
 			';
@@ -800,7 +810,6 @@ function oGetRecursos($sCodCD = null, $sFiltro = null)
 
 	return _rsExecQuery($sSQL);
 }
-
 
 /** ********************************************************************
  *  	AUXILIARES (no modificar)
