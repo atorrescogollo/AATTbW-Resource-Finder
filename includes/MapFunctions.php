@@ -8,6 +8,9 @@
  *
  * @param $aFeatures array asociativo con la estructura correspondiente al campo T_DETALLE
  *			del array devuelvo por la funcion aGetTable.
+ * @param codename String. Code to apply to detail.php href
+ * @param detailtype String. Type to apply to detail.php href
+ * @param detailpopup Boolean. Must be shown as a popup? (javascript:popupdetail)
  *
  * @return
  * 		- cadena de caracteres con la serialización de los Registros del array a formato GeoJSON

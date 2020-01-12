@@ -1,6 +1,6 @@
 <?php
+// Load dependencies
 require_once('MySQLFunctions.php');
-
 
 /* elementos de primer nivel */
 DEFINE('T_DATOS', 'td');

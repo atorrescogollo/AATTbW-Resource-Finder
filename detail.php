@@ -1,5 +1,5 @@
 <?php
-session_start();
+// Load dependencies
 require_once "includes/HTMLFunctions.php";
 require_once "includes/MySQLFunctions.php";
 require_once "includes/TableFunctions.php";
@@ -8,9 +8,24 @@ require_once "includes/LoginFunctions.php";
 require_once "includes/DefaultSettings.php";
 include_once "LocalSettings.php";
 
+session_start();
 
-$authorized = authorizedByRoles($_SESSION['Userdata']['Roles'], [3, 2, 'detail']);
+$selectorPath = [];
+$authorized = false; // Default: not authorized
+if (isset($_SESSION['SelectorPath'])) {
+	$selectorPath = $_SESSION['SelectorPath'];
+	$selectorPath[] = 'detail';
+	$authorized = authorizedByRoles($_SESSION['Userdata']['Roles'], $selectorPath);
+}
 
+/*
+* Functions, parameters and returntype to load from type parameter ($_GET).
+*  Usage: 
+*    URI:     detail.php?type=CA&... 
+*    Actions:
+*            - call function 'oGetInfoCA' with 'code' parameter (from $_GET)
+*            - set type=CA for aGetTable function (includes/TableFunctions.php)
+*/
 $infofunctions['CA'] = [
 	'rtype' => 'CA',
 	'function' => "oGetInfoCA",
@@ -29,7 +44,7 @@ $infofunctions['RE'] = [
 $infofunctions['REs'] = [
 	'rtype' => 'RE',
 	'function' => "oGetRecursos",
-	'parameters' => ['codCD', null, 'codPR', 'codCA']
+	'parameters' => ['codCD', null, 'codPR', 'codCA'] // Needs 'null' to preserve order (oGetRecursos filter param not allowed)
 ];
 
 $oMysqli = oAbrirBaseDeDatos();
@@ -37,18 +52,23 @@ $oRS = null;
 if ($authorized && isset($_GET['type'])) {
 	$sTipo = $_GET['type'];
 	if (array_key_exists($sTipo, $infofunctions)) {
+		// Load triplet from type parameter
 		$userfunction = $infofunctions[$sTipo]['function'];
 		$userfunctionparams = $infofunctions[$sTipo]['parameters'];
 		$sTipo = $infofunctions[$sTipo]['rtype'];
 
+		// Process function parameters (check existence and format from $_GET)
 		$loadedparams = [];
 		foreach ($userfunctionparams as $p) {
 			if (!is_null($p) && isset($_GET[$p]) && preg_match('/^[a-zA-Z\d]+$/', $_GET[$p])) {
 				$loadedparams[] = $_GET[$p];
 			} else {
+				// Preserve order
 				$loadedparams[] = null;
 			}
 		}
+
+		// Finallty, execute query
 		$oRS = call_user_func_array($userfunction, $loadedparams);
 	}
 }
@@ -82,34 +102,35 @@ if ($authorized && isset($_GET['type'])) {
 		<div id="data">
 			<?php
 			if (!$authorized) {
+				// Show 'not authorized' message
 				echo '<div id="error-container">';
 				echo ErrorHTML("Permiso denegado", "Solicite permisos para visualizar este apartado.");
 				echo '</div>';
 			} else if (is_null($oRS)) {
+				// Query was not executed correctly -> There is not data available
 				echo sPintarError();
 			} else {
 				$count = $oRS->num_rows;
-				if ($count > 0) {
-					$bData = true;
-					$aInfo = aGetTable($oRS, $sTipo);
 
-					if ($count == 1) {
-						$json = sGetGeoJson($aInfo[T_DETALLE]);
-					} else {
-						$json = sGetGeoJson($aInfo[T_DETALLE], 'code', 'RE', false);
-					}
+				// There is data to show
+				if ($count > 0) {
+					// 1. Format json for javascript map printing
+					$aInfo = aGetTable($oRS, $sTipo);
+					if ($count == 1) $json = sGetGeoJson($aInfo[T_DETALLE]);
+					else $json = sGetGeoJson($aInfo[T_DETALLE], 'code', 'RE', false);
 					file_put_contents($workingdir . '/AATTbW_GeoJson.json', $json);
-					if (count($aInfo[T_DATOS][T_DATOS_INFO]) > 1) {
-						echo sPintarDatos($aInfo[T_DATOS], true);
-					} else {
-						echo sPintarDatos($aInfo[T_DETALLE], false);
-					}
-					echo '
-					</div> 
-					<div id="mapArcGIS"></div>
-					<script src="js/apiArcGIS.js" type="text/javascript"></script>	
-					';
+
+					// 2. Print data sheet in a table (diferenciate between multiple rows / one row)
+					if (count($aInfo[T_DATOS][T_DATOS_INFO]) > 1) echo sPintarDatos($aInfo[T_DATOS], true);
+					else echo sPintarDatos($aInfo[T_DETALLE], false);
+
+					// 3. Print map from client side thought javascript (json will be requested)
+					echo '</div> 
+					<div id="mapArcGIS">
+					</div>
+					<script src="js/apiArcGIS.js" type="text/javascript"></script>';
 				} else {
+					// Query was executed correctly but there are no results -> Simply print: "0 results founded"
 					echo sPintarDatos($aInfo[T_DETALLE], false);
 				}
 				$oRS->free();

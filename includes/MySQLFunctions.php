@@ -732,7 +732,8 @@ function oGetRasgosRecurso($sCod)
  *			.null => la función devuelve todos los Recurso del Conjunto de Datos determinado por 'sCodCD'
  *			.no null => la función devuelve los Recursos del Conjunto de Datos cuyo nombre contiene
  *						el valor de 'sFiltro'
- *
+ * @param sCodPR Cadena de caracteres. Codigo de Provincia
+ * @param sCodCA Cadena de caracteres. Codigo de Comunidad Autonoma
  * @return
  *		- null si sCodCD y sFiltro son nulos o cadena vacía
  *		- en otro caso objeto de tipo mysqli_result

@@ -1,12 +1,22 @@
 <?php
+// Load requirements
 require_once("includes/DefaultSettings.php");
 include_once("LocalSettings.php");
 
+/**
+ * Authenticated a user
+ * 
+ * @param username
+ * @param password
+ * 
+ * @return Array. User Data: [ 'Nombre' => ... , 'Roles' => ... ] 
+ */
 function authenticate($username, $password)
 {
     global $aUsuarios;
 
-    if(!preg_match('/^[a-z0-9_-]{'.PASSWD_MIN_LENGTH.','.PASSWD_MAX_LENGTH.'}$/i', $password)){
+    // Validate format
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL) || !preg_match('/^[a-z0-9_-]{' . PASSWD_MIN_LENGTH . ',' . PASSWD_MAX_LENGTH . '}$/i', $password)) {
         return null;
     }
 
@@ -23,6 +33,14 @@ function authenticate($username, $password)
     return null;
 }
 
+/**
+ * Check if a set of roles authorizes some siteMap Position
+ * 
+ * @param roles Array. Roles to test
+ * @param siteMapPath Array. Navigation Tree Path
+ * 
+ * @return Boolean. Authorized?
+ */
 function authorizedByRoles($roles, $siteMapPath = array(0))
 {
     foreach ($roles as $role) {
@@ -33,6 +51,14 @@ function authorizedByRoles($roles, $siteMapPath = array(0))
     return false;
 }
 
+/**
+ * Check if a single role authorizes some siteMap Position
+ * 
+ * @param roles String. Role to test
+ * @param siteMapPath Array. Navigation Tree Path
+ * 
+ * @return Boolean. Authorized?
+ */
 function authorizedByRole($role, $siteMapPath = array(0))
 {
     // TODO: Improve roles with $roles['*']['*'] possible combinations
