@@ -88,11 +88,17 @@ if ($authorized && isset($_GET['type'])) {
 			} else if (is_null($oRS)) {
 				echo sPintarError();
 			} else {
-				if ($oRS->num_rows > 0) {
+				$count = $oRS->num_rows;
+				if ($count > 0) {
 					$bData = true;
 					$aInfo = aGetTable($oRS, $sTipo);
 
-					file_put_contents($workingdir . '/AATTbW_GeoJson.json', sGetGeoJson($aInfo[T_DETALLE]));
+					if ($count == 1) {
+						$json = sGetGeoJson($aInfo[T_DETALLE]);
+					} else {
+						$json = sGetGeoJson($aInfo[T_DETALLE], 'code', 'RE');
+					}
+					file_put_contents($workingdir . '/AATTbW_GeoJson.json', $json);
 					if (count($aInfo[T_DATOS][T_DATOS_INFO]) > 1) {
 						echo sPintarDatos($aInfo[T_DATOS], true);
 					} else {

@@ -9,7 +9,6 @@ function siteMap2UnorderedList($siteMap, $collapse, $currentSelectorPath, $recur
     $sS = '<ul class=ullevel' . $recursiveLevel . '>';
     foreach ($siteMap as $id => $dataarray) {
         $selected = (array_key_exists($recursiveLevel, $currentSelectorPath) && $id == $currentSelectorPath[$recursiveLevel]);
-        $sS .= '<li>';
         $name = $dataarray['Name'];
 
         $hrefItem = $prefixHRef;
@@ -19,7 +18,9 @@ function siteMap2UnorderedList($siteMap, $collapse, $currentSelectorPath, $recur
             if ($selected) {
                 $styleClass = 'class=selected';
             }
-            $sS .= '<a ' . $styleClass . ' href="' . $hrefItem . '">' . $name . '</a>';
+
+            $sS .= '<li ' . $styleClass . '>';
+            $sS .= '<a href="' . $hrefItem . '">' . $name . '</a>';
         } else {
             $sS .= $name;
         }

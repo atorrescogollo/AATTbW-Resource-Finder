@@ -131,6 +131,7 @@ li a {
 #sitemap-container .ullevel1 .selected {
     font-weight: bold;
     font-size: 15px;
+    border: 2px solid rgb(128, 128, 128);
 }
 
 #sitemap-container>ul {
@@ -249,9 +250,9 @@ li a {
     background-color: #f5e9cc;
     border: 2px solid #f6b73c;
     border-radius: 10px;
-    max-width: 600px;
     min-width: 600px;
-    margin: 50px 30%;
+    margin: 50px;
+    padding: 16px;
 }
 
 #error-container>img {
