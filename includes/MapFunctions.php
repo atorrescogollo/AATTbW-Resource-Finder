@@ -13,7 +13,7 @@
  * 		- cadena de caracteres con la serialización de los Registros del array a formato GeoJSON
  *			Consultar http://geojson.org/
  * *****************************************************************************************/
-function sGetGeoJson($aFeatures, $codename = null, $detailtype = null)
+function sGetGeoJson($aFeatures, $codename = null, $detailtype = null, $detailpopup = true)
 {
     $sS = '
 	{
@@ -31,11 +31,16 @@ function sGetGeoJson($aFeatures, $codename = null, $detailtype = null)
 			"properties": {	';
 
         $sSFeatures .= ' "Nombre": "' . $data[T_DETALLE_NOMBRE] . '"';
+
         if (!is_null($codename) && !is_null($detailtype)) {
-
-            $detailhrefargs = '?type=' . $detailtype . '&' . $codename . '=' . $cod;
-
-            $sSFeatures .= ', "Detalle": "<a href=\"detail.php' . $detailhrefargs . '\">Ver en mapa</a>"';
+            $skipcondition = ($detailtype == 'REs' && (!isset($data[T_DETALLE_RASGOS]['NumRecursos']) || $data[T_DETALLE_RASGOS]['NumRecursos'] == 0));
+            if (!$skipcondition) {
+                $detailhrefargs = '?type=' . $detailtype . '&' . $codename . '=' . $cod;
+                if ($detailpopup)
+                    $sSFeatures .= ', "Detalle": "<a href=\'javascript:popupdetail(\"detail.php' . $detailhrefargs . '\")\'>Ver en mapa</a>"';
+                else
+                    $sSFeatures .= ', "Detalle": "<a href=\"detail.php' . $detailhrefargs . '\">Ver en mapa</a>"';
+            }
         }
         foreach ($data[T_DETALLE_RASGOS] as $rasgo => $valor) {
             $sSFeatures .= ', "' . $rasgo . '": "' . $valor . '"';

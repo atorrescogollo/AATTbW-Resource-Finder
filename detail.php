@@ -96,7 +96,7 @@ if ($authorized && isset($_GET['type'])) {
 					if ($count == 1) {
 						$json = sGetGeoJson($aInfo[T_DETALLE]);
 					} else {
-						$json = sGetGeoJson($aInfo[T_DETALLE], 'code', 'RE');
+						$json = sGetGeoJson($aInfo[T_DETALLE], 'code', 'RE', false);
 					}
 					file_put_contents($workingdir . '/AATTbW_GeoJson.json', $json);
 					if (count($aInfo[T_DATOS][T_DATOS_INFO]) > 1) {

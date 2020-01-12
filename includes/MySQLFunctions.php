@@ -794,7 +794,7 @@ function oGetRecursos($sCodCD = null, $sFiltro = null, $sCodPR = null, $sCodCA =
 				ST_AsGeoJSON(r.gGeometria) as GeoJSON,
 				COUNT(DISTINCT rr.sCodRasgo) as NumRasgos
 				FROM Recurso r
-					INNER JOIN Conjunto_Datos as cd
+				INNER JOIN Conjunto_Datos as cd
 						ON cd.sCod=r.sCodCD
 				INNER JOIN Recurso_Provincia as rp
 					ON rp.sCodRecurso=r.sCod
